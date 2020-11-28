@@ -27,8 +27,8 @@
 
         public enum UnitSystem
         {
-            [EnumMember(Value = "si")] Si, /// <summary> International System of Units </summary>
-            [EnumMember(Value = "us")] Us, /// <summary> US customary units </summary>
+            Si, /// <summary> International System of Units </summary>
+            Us, /// <summary> US customary units </summary>
         }
 
         /// <summary>
@@ -60,7 +60,7 @@
         /// <returns>A ClimaCellCore Realtime response with the API headers and data.</returns>
         public async Task<Realtime> GetRealtime(double latitude, double longitude, Enum dataLayerFields, UnitSystem unitSystem = UnitSystem.Si)
         {
-            var query = BuildRequestUri(latitude, longitude, dataLayerFields, RequestType.Realtime);
+            var query = BuildRequestUri(latitude, longitude, dataLayerFields, RequestType.Realtime, unitSystem);
             var response = await httpClient.HttpRequestAsync($"{baseUri}{query}").ConfigureAwait(false);
             var responseContent = response.Content?.ReadAsStringAsync();
 
@@ -99,7 +99,7 @@
         /// <param name="fields"></param>
         /// <param name="requestType"></param>
         /// <returns></returns>
-        private string BuildRequestUri(double latitude, double longitude, Enum dataLayerFields, RequestType requestType, UnitSystem unitSystem = UnitSystem.Si)
+        private string BuildRequestUri(double latitude, double longitude, Enum dataLayerFields, RequestType requestType, UnitSystem unitSystem)
         {
             var foundFields = GetFlags(dataLayerFields);
             var foundFieldsCount = foundFields.Count();
@@ -116,7 +116,7 @@
                 i++;
             }
 
-            var unitSystemString = unitSystem.GetMemberValue();
+            var unitSystemString = unitSystem.ToString().ToLower();
             var fieldString = Uri.EscapeUriString(fieldsBuilder.ToString());
             var queryString = new StringBuilder(Invariant($"{requestType.GetMemberValue()}?"));
 
