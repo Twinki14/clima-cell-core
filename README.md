@@ -7,9 +7,9 @@ An unoffical C# standard library [climacell api](https://developer.climacell.co/
 Present/Forecast
 
 - :white_check_mark: Realtime
-- :white_check_mark: Nowcast
-- :white_check_mark: Hourly
-- :white_check_mark: Daily
+- :heavy_minus_sign: Nowcast
+- :heavy_minus_sign: Hourly
+- :heavy_minus_sign: Daily
 
 Historical
 
@@ -24,8 +24,8 @@ Map
 ## Supported data layers
 
 - :white_check_mark: Core
-- :white_check_mark: Air Quality
-- :white_check_mark: Pollen
+- :heavy_minus_sign: Air Quality
+- :heavy_minus_sign: Pollen
 - :x: Road
 - :x: Fire
 - :x: Insurance
