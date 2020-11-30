@@ -15,7 +15,7 @@
     public class FeelsLike
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -24,7 +24,7 @@
     public class Dewpoint
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -42,7 +42,7 @@
     public class WindSpeed
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -51,7 +51,7 @@
     public class WindDirection
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -60,7 +60,7 @@
     public class WindGust
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public float Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -69,7 +69,7 @@
     public class BaroPressure
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -78,7 +78,7 @@
     public class Precipitation
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -120,7 +120,7 @@
     public class Visibility
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public float Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
