@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ClimaCellCore.Models
+﻿namespace ClimaCellCore.Models
 {
-    class Pollen
-    {
-    }
+    using System;
+    using Newtonsoft.Json;
+    using System.Runtime.Serialization;
+
+
 }

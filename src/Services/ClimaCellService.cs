@@ -1,14 +1,12 @@
 ﻿namespace ClimaCellCore.Services
 {
-    using ClimaCellCore.Extensions;
     using ClimaCellCore.Models;
     using System;
-    using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
     using System.Collections.Generic;
+    using ClimaCellCore.Constants;
     using static System.FormattableString;
-    using System.Runtime.Serialization;
 
     public class ClimaCellService : IDisposable
     {
@@ -16,20 +14,6 @@
         private readonly Uri baseUri;
         private readonly IHttpClient httpClient;
         private readonly IJsonSerializerService jsonSerializerService;
-
-        private enum RequestType
-        {
-            [EnumMember(Value = "realtime")]        Realtime,
-            [EnumMember(Value = "nowcast")]         Nowcast,
-            [EnumMember(Value = "forecast/hourly")] Hourly,
-            [EnumMember(Value = "forecast/daily")]  Daily
-        }
-
-        public enum UnitSystem
-        {
-            Si, /// <summary> International System of Units </summary>
-            Us, /// <summary> US customary units </summary>
-        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ClimaCellService" /> class. A wrapper for the
@@ -58,9 +42,10 @@
         /// <param name="latitude">Latitude to request data for in decimal degrees.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
         /// <returns>A ClimaCellCore Realtime response with the API headers and data.</returns>
-        public async Task<Realtime> GetRealtime(double latitude, double longitude, Enum dataLayerFields, UnitSystem unitSystem = UnitSystem.Si)
+        /// <remarks>Will not check if the passed data layer field(s) can be used in the Realtime climacell endpoint.</remarks>
+        public async Task<Realtime> GetRealtime(double latitude, double longitude, string unitSystem = null, params string[] fields)
         {
-            var query = BuildRequestUri(latitude, longitude, dataLayerFields, RequestType.Realtime, unitSystem);
+            var query = BuildRequestUri(latitude, longitude, Endpoint.Realtime, unitSystem ?? UnitSystem.Si, fields);
             var response = await httpClient.HttpRequestAsync($"{baseUri}{query}").ConfigureAwait(false);
             var responseContent = response.Content?.ReadAsStringAsync();
 
@@ -83,9 +68,11 @@
             }
             catch (FormatException e)
             {
-                realtimeResponse = null;
-                realtimeResponse.IsSuccessStatus = false;
-                realtimeResponse.ResponseReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}";
+                realtimeResponse = new Realtime
+                {
+                    IsSuccessStatus = false,
+                    ResponseReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}",
+                };
             }
            
             return realtimeResponse;
@@ -99,44 +86,18 @@
         /// <param name="fields"></param>
         /// <param name="requestType"></param>
         /// <returns></returns>
-        private string BuildRequestUri(double latitude, double longitude, Enum dataLayerFields, RequestType requestType, UnitSystem unitSystem)
+        private string BuildRequestUri(double latitude, double longitude, string endPoint, string unitSystem, params string[] fields)
         {
-            var foundFields = GetFlags(dataLayerFields);
-            var foundFieldsCount = foundFields.Count();
-            var fieldsBuilder = new StringBuilder();
+            var fieldString = Uri.EscapeUriString(String.Join(",", fields));
+            var queryString = new StringBuilder($"{endPoint}?");
 
-            uint i = 0;
-            foreach (Enum flag in foundFields)
-            {
-                fieldsBuilder.Append(flag.GetMemberValue());
-                if (i < foundFieldsCount - 1)
-                {
-                    fieldsBuilder.Append(",");
-                }
-                i++;
-            }
-
-            var unitSystemString = unitSystem.ToString().ToLower();
-            var fieldString = Uri.EscapeUriString(fieldsBuilder.ToString());
-            var queryString = new StringBuilder(Invariant($"{requestType.GetMemberValue()}?"));
-
-            queryString.Append($"lat={latitude:N4}&lon={longitude:N4}");
-            queryString.Append($"&unit_system={unitSystemString}");
+            queryString.Append(Invariant($"lat={latitude:N4}&lon={longitude:N4}"));
+            queryString.Append($"&unit_system={unitSystem}");
             queryString.Append($"&fields={fieldString}");
             queryString.Append($"&apikey={this.apiKey}");
 
+            Console.WriteLine(queryString);
             return queryString.ToString();
-        }
-
-        private static IEnumerable<Enum> GetFlags(Enum input)
-        {
-            foreach (Enum value in Enum.GetValues(input.GetType()))
-            {
-                if (input.HasFlag(value))
-                {
-                    yield return value;
-                }
-            } 
         }
 
         /// <summary>
