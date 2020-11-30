@@ -34,12 +34,6 @@
         [JsonProperty("precipitation_type")]
         public PrecipitationType precipitationType { get; set; }
 
-        [JsonProperty("precipitation_probability")]
-        public PrecipitationProbability precipitationProbability { get; set; }
-
-        [JsonProperty("precipitation_accumulation")]
-        public PrecipitationAccumulation precipitationAccumulation { get; set; }
-
         [JsonProperty("sunrise")]
         public Sunrise sunrise { get; set; }
 
