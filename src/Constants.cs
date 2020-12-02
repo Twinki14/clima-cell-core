@@ -37,18 +37,18 @@
     /// </summary>
     public static class AirQuality
     {
-        public static readonly string Pm25                  = "pm25";                     /// <summary> </summary>
-        public static readonly string Pm10                  = "pm10";                     /// <summary> </summary>
-        public static readonly string O3                    = "o3";                       /// <summary> </summary>
-        public static readonly string NO2                   = "no2";                      /// <summary> </summary>
-        public static readonly string CO                    = "co";                       /// <summary> </summary>
-        public static readonly string SO2                   = "so2";                      /// <summary> </summary>
-        public static readonly string EpaAQI                = "epa_aqi";                  /// <summary> </summary>
-        public static readonly string EpaPrimaryPollutant   = "epa_primary_pollutant";    /// <summary> </summary>
-        public static readonly string EpaHealthConcern      = "epa_health_concern";       /// <summary> </summary>
-        public static readonly string ChinaAQI              = "china_aqi";                /// <summary> </summary>
-        public static readonly string ChinaPrimaryPollutant = "china_primary_pollutant";  /// <summary> </summary>
-        public static readonly string ChinaHealthConcern    = "china_health_concern";     /// <summary> </summary>
+        public static readonly string Pm25                  = "pm25";                     /// <summary>Particulate Matter < 2.5 μm.</summary>
+        public static readonly string Pm10                  = "pm10";                     /// <summary>Particulate Matter < 10 μm.</summary>
+        public static readonly string O3                    = "o3";                       /// <summary>Ozone.</summary>
+        public static readonly string NO2                   = "no2";                      /// <summary>Nitrogen Dioxide.</summary>
+        public static readonly string CO                    = "co";                       /// <summary>Carbon Monoxide.</summary>
+        public static readonly string SO2                   = "so2";                      /// <summary>Sulfur Dioxide.</summary>
+        public static readonly string EpaAQI                = "epa_aqi";                  /// <summary>Air quality index per US EPA standard.</summary>
+        public static readonly string EpaPrimaryPollutant   = "epa_primary_pollutant";    /// <summary>Primary pollutant per US EPA standard.</summary>
+        public static readonly string EpaHealthConcern      = "epa_health_concern";       /// <summary>Health concern level based on EPA standard.</summary>
+        public static readonly string ChinaAQI              = "china_aqi";                /// <summary>Air quality index per China MEP standard.</summary>
+        public static readonly string ChinaPrimaryPollutant = "china_primary_pollutant";  /// <summary>Primary pollutant per China MEP standard.</summary>
+        public static readonly string ChinaHealthConcern    = "china_health_concern";     /// <summary>Health concern level based on China MEP standard.</summary>
     }
 
     /// <summary>
@@ -56,7 +56,9 @@
     /// </summary>
     public static class Pollen
     {
-
+        public static readonly string Tree  = "pollen_tree";   /// <summary>ClimaCell pollen index for trees.</summary>
+        public static readonly string Weed  = "pollen_weed";   /// <summary>ClimaCell pollen index for weeds</summary>
+        public static readonly string Grass = "pollen_grass";  /// <summary>ClimaCell pollen index for grass</summary>
     }
 
     /// <summary>
