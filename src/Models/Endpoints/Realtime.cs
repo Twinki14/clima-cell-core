@@ -61,6 +61,42 @@
         [JsonProperty("weather_code")]
         public WeatherCode weatherCode { get; set; }
 
+        [JsonProperty("pm25")]
+        public Pm25 pm25 { get; set; }
+
+        [JsonProperty("pm10")]
+        public Pm10 pm10 { get; set; }
+
+        [JsonProperty("o3")]
+        public O3 o3 { get; set; }        
+        
+        [JsonProperty("no2")]
+        public NO2 no2 { get; set; }        
+        
+        [JsonProperty("co")]
+        public CO co { get; set; }
+
+        [JsonProperty("so2")]
+        public SO2 so2 { get; set; }
+
+        [JsonProperty("epa_primary_pollutant")]
+        public EpaAQI epaAqi { get; set; }
+
+        [JsonProperty("epa_aqi")]
+        public EpaPrimaryPollutant epaPrimaryPollutant { get; set; }
+
+        [JsonProperty("epa_health_concern")]
+        public EpaHealthConcern epaHealthConcern { get; set; }
+
+        [JsonProperty("china_aqi")]
+        public ChinaAQI chinaAqi { get; set; }
+
+        [JsonProperty("china_primary_pollutant")]
+        public ChinaPrimaryPollutant chinaPrimaryPollutant { get; set; }
+
+        [JsonProperty("china_health_concern")]
+        public ChinaHealthConcern chinaHealthConcern { get; set; }
+
         [JsonProperty("observation_time")]
         public ObservationTime observationTime { get; set; }
     }
