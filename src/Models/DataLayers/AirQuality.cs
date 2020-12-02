@@ -59,7 +59,7 @@
     public class EpaAQI
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public float Value { get; set; }
     }
 
     public class EpaPrimaryPollutant
