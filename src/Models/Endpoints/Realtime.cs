@@ -97,6 +97,15 @@
         [JsonProperty("china_health_concern")]
         public ChinaHealthConcern chinaHealthConcern { get; set; }
 
+        [JsonProperty("pollen_tree")]
+        public PollenTree pollenTree { get; set; }
+
+        [JsonProperty("pollen_weed")]
+        public PollenWeed pollenWeed { get; set; }
+
+        [JsonProperty("pollen_grass")]
+        public PollenGrass pollenGrass { get; set; }
+
         [JsonProperty("observation_time")]
         public ObservationTime observationTime { get; set; }
     }

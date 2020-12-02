@@ -1,8 +1,31 @@
 ﻿namespace ClimaCellCore.Models
 {
-    using System;
     using Newtonsoft.Json;
-    using System.Runtime.Serialization;
 
+    public class PollenTree
+    {
+        [JsonProperty("value")]
+        public int Value { get; set; }
 
+        [JsonProperty("units")]
+        public string Units { get; set; }
+    }
+
+    public class PollenWeed
+    {
+        [JsonProperty("value")]
+        public int Value { get; set; }
+
+        [JsonProperty("units")]
+        public string Units { get; set; }
+    }
+
+    public class PollenGrass
+    {
+        [JsonProperty("value")]
+        public int Value { get; set; }
+
+        [JsonProperty("units")]
+        public string Units { get; set; }
+    }
 }
