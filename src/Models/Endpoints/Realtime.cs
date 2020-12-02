@@ -5,108 +5,108 @@
     public class Realtime : ClimaCellResponse
     {
         [JsonProperty("temp")]
-        public Temp temp { get; set; }
+        public Temp Temp { get; set; }
 
         [JsonProperty("feels_like")]
-        public FeelsLike feelsLike { get; set; }
+        public FeelsLike FeelsLike { get; set; }
 
         [JsonProperty("dewpoint")]
-        public Dewpoint dewpoint { get; set; }
+        public Dewpoint Dewpoint { get; set; }
 
         [JsonProperty("humidity")]
-        public Humidity humidity { get; set; }
+        public Humidity Humidity { get; set; }
 
         [JsonProperty("wind_speed")]
-        public WindSpeed windSpeed { get; set; }
+        public WindSpeed WindSpeed { get; set; }
 
         [JsonProperty("wind_direction")]
-        public WindSpeed windDirection { get; set; }
+        public WindSpeed WindDirection { get; set; }
 
         [JsonProperty("wind_gust")]
-        public WindGust windGust{ get; set; }
+        public WindGust WindGust{ get; set; }
 
         [JsonProperty("baro_pressure")]
-        public BaroPressure baroPressure { get; set; }
+        public BaroPressure BaroPressure { get; set; }
 
         [JsonProperty("precipitation")]
-        public Precipitation precipitation { get; set; }
+        public Precipitation Precipitation { get; set; }
 
         [JsonProperty("precipitation_type")]
-        public PrecipitationType precipitationType { get; set; }
+        public PrecipitationType PrecipitationType { get; set; }
 
         [JsonProperty("sunrise")]
-        public Sunrise sunrise { get; set; }
+        public Sunrise Sunrise { get; set; }
 
         [JsonProperty("sunset")]
-        public Sunset sunset { get; set; }
+        public Sunset Sunset { get; set; }
 
         [JsonProperty("visibility")]
-        public Visibility visibility { get; set; }
+        public Visibility Visibility { get; set; }
 
         [JsonProperty("cloud_cover")]
-        public CloudCover cloudCover { get; set; }
+        public CloudCover CloudCover { get; set; }
 
         [JsonProperty("cloud_base")]
-        public CloudBase cloudBase { get; set; }
+        public CloudBase CloudBase { get; set; }
 
         [JsonProperty("cloud_ceiling")]
-        public CloudCeiling cloudCeiling { get; set; }
+        public CloudCeiling CloudCeiling { get; set; }
 
         [JsonProperty("surface_shortwave_radiation")]
-        public SurfaceShortwaveRadiation surfaceShortwaveRadiation { get; set; }
+        public SurfaceShortwaveRadiation SurfaceShortwaveRadiation { get; set; }
 
         [JsonProperty("moon_phase")]
-        public MoonPhase moonPhase { get; set; }
+        public MoonPhase MoonPhase { get; set; }
 
         [JsonProperty("weather_code")]
-        public WeatherCode weatherCode { get; set; }
+        public WeatherCode WeatherCode { get; set; }
 
         [JsonProperty("pm25")]
-        public Pm25 pm25 { get; set; }
+        public Pm25 Pm25 { get; set; }
 
         [JsonProperty("pm10")]
-        public Pm10 pm10 { get; set; }
+        public Pm10 Pm10 { get; set; }
 
         [JsonProperty("o3")]
-        public O3 o3 { get; set; }        
+        public O3 O3 { get; set; }        
         
         [JsonProperty("no2")]
-        public NO2 no2 { get; set; }        
+        public NO2 NO2 { get; set; }        
         
         [JsonProperty("co")]
-        public CO co { get; set; }
+        public CO CO { get; set; }
 
         [JsonProperty("so2")]
-        public SO2 so2 { get; set; }
+        public SO2 SO2 { get; set; }
 
         [JsonProperty("epa_primary_pollutant")]
-        public EpaAQI epaAqi { get; set; }
+        public EpaAQI EpaAQI { get; set; }
 
         [JsonProperty("epa_aqi")]
-        public EpaPrimaryPollutant epaPrimaryPollutant { get; set; }
+        public EpaPrimaryPollutant EpaPrimaryPollutant { get; set; }
 
         [JsonProperty("epa_health_concern")]
-        public EpaHealthConcern epaHealthConcern { get; set; }
+        public EpaHealthConcern EpaHealthConcern { get; set; }
 
         [JsonProperty("china_aqi")]
-        public ChinaAQI chinaAqi { get; set; }
+        public ChinaAQI ChinaAQI { get; set; }
 
         [JsonProperty("china_primary_pollutant")]
-        public ChinaPrimaryPollutant chinaPrimaryPollutant { get; set; }
+        public ChinaPrimaryPollutant ChinaPrimaryPollutant { get; set; }
 
         [JsonProperty("china_health_concern")]
-        public ChinaHealthConcern chinaHealthConcern { get; set; }
+        public ChinaHealthConcern ChinaHealthConcern { get; set; }
 
         [JsonProperty("pollen_tree")]
-        public PollenTree pollenTree { get; set; }
+        public PollenTree PollenTree { get; set; }
 
         [JsonProperty("pollen_weed")]
-        public PollenWeed pollenWeed { get; set; }
+        public PollenWeed PollenWeed { get; set; }
 
         [JsonProperty("pollen_grass")]
-        public PollenGrass pollenGrass { get; set; }
+        public PollenGrass PollenGrass { get; set; }
 
         [JsonProperty("observation_time")]
-        public ObservationTime observationTime { get; set; }
+        public ObservationTime ObservationTime { get; set; }
     }
 }
