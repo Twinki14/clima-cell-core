@@ -49,7 +49,11 @@
         {
             if (fields.Length <= 0)
             {
-                throw new ArgumentException($"{nameof(fields)} cannot be empty.");
+                return new Realtime
+                {
+                        IsSuccessStatus = false,
+                        ResponseReasonPhrase = $"{nameof(fields)} cannot be empty.",
+                };
             }
 
             var query = BuildRequestUri(latitude, longitude, Endpoint.Realtime, unitSystem ?? UnitSystem.Si, fields);
@@ -98,7 +102,14 @@
         {
             if (fields.Length <= 0)
             {
-                throw new ArgumentException($"{nameof(fields)} cannot be empty.");
+                return new Nowcast[1]
+                {
+                    new Nowcast
+                    {
+                        IsSuccessStatus = false,
+                        ResponseReasonPhrase = $"{nameof(fields)} cannot be empty.",
+                    }
+                };
             }
 
             var query = BuildRequestUri(latitude, longitude, Endpoint.NowCast, unitSystem ?? UnitSystem.Si, fields, timestep, startTime, endTime);
@@ -131,13 +142,75 @@
                 {
                     new Nowcast
                     {
+                        IsSuccessStatus = false,
+                        ResponseReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}",
+                    }
+                };
+            }
+            return nowcastResponse;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="unitSystem"></param>
+        /// <param name="fields"></param>
+        /// <returns></returns>
+        public async Task<Hourly[]> GetHourly(double latitude, double longitude, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
+        {
+            if (fields.Length <= 0)
+            {
+                return new Hourly[1]
+                {
+                    new Hourly
+                    {
+                        IsSuccessStatus = false,
+                        ResponseReasonPhrase = $"{nameof(fields)} cannot be empty.",
+                    }
+                };
+            }
+
+            var query = BuildRequestUri(latitude, longitude, Endpoint.Hourly, unitSystem ?? UnitSystem.Si, fields, null, startTime, endTime);
+            var response = await httpClient.HttpRequestAsync($"{baseUri}{query}").ConfigureAwait(false);
+            var responseContent = response.Content?.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new Hourly[1]
+                {
+                    new Hourly
+                    {
                         IsSuccessStatus = response.IsSuccessStatusCode,
                         ResponseStatusCode = response.StatusCode,
                         ResponseReasonPhrase = response.ReasonPhrase,
                     }
                 };
             }
-            return nowcastResponse;
+
+            Hourly[] hourlyResponse;
+            try
+            {
+                hourlyResponse = await jsonSerializerService.DeserializeJsonAsync<Hourly[]>(responseContent).ConfigureAwait(false);
+                foreach (Hourly resp in hourlyResponse)
+                    resp.TranslateFromHttpMessage(response);
+            }
+            catch (FormatException e)
+            {
+                hourlyResponse = new Hourly[1]
+                {
+                    new Hourly
+                    {
+                        IsSuccessStatus = false,
+                        ResponseReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}",
+                    }
+                };
+            }
+            return hourlyResponse;
+        }
         }
 
         /// <summary>
