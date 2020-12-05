@@ -1,12 +1,12 @@
 ﻿namespace ClimaCellCore.Services
 {
-    using ClimaCellCore.Models;
     using System;
     using System.Text;
     using System.Threading.Tasks;
-    using System.Collections.Generic;
+    using ClimaCellCore.Models;
     using ClimaCellCore.Constants;
     using static System.FormattableString;
+    using System.Globalization;
 
     public class ClimaCellService : IDisposable
     {
@@ -39,28 +39,34 @@
         /// <summary>
         ///     Make a request for realtime weather data.
         /// </summary>
-        /// <param name="latitude">Latitude to request data for in decimal degrees.</param>
-        /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
+        /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
+        /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
+        /// <param name="unitSystem"></param>
+        /// <param name="fields"></param>
         /// <returns>A ClimaCellCore Realtime response with the API headers and data.</returns>
         /// <remarks>Will not check if the passed data layer field(s) can be used in the Realtime climacell endpoint.</remarks>
-        public async Task<Realtime> GetRealtime(double latitude, double longitude, string unitSystem = null, params string[] fields)
+        public async Task<Realtime> GetRealtime(double latitude, double longitude, string unitSystem, params string[] fields)
         {
+            if (fields.Length <= 0)
+            {
+                throw new ArgumentException($"{nameof(fields)} cannot be empty.");
+            }
+
             var query = BuildRequestUri(latitude, longitude, Endpoint.Realtime, unitSystem ?? UnitSystem.Si, fields);
             var response = await httpClient.HttpRequestAsync($"{baseUri}{query}").ConfigureAwait(false);
             var responseContent = response.Content?.ReadAsStringAsync();
 
-            Realtime realtimeResponse = new Realtime
+            if (!response.IsSuccessStatusCode)
             {
-                IsSuccessStatus = response.IsSuccessStatusCode,
-                ResponseStatusCode = response.StatusCode,
-                ResponseReasonPhrase = response.ReasonPhrase,
-            };
-
-            if (!realtimeResponse.IsSuccessStatus)
-            {
-                return realtimeResponse;
+                return new Realtime
+                {
+                    IsSuccessStatus = response.IsSuccessStatusCode,
+                    ResponseStatusCode = response.StatusCode,
+                    ResponseReasonPhrase = response.ReasonPhrase,
+                };
             }
 
+            Realtime realtimeResponse;
             try
             {
                 realtimeResponse = await jsonSerializerService.DeserializeJsonAsync<Realtime>(responseContent).ConfigureAwait(false);
@@ -74,19 +80,75 @@
                     ResponseReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}",
                 };
             }
-           
             return realtimeResponse;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
+        /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
+        /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
+        /// <param name="timestep">Time step in minutes, 1-60.</param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="unitSystem"></param>
         /// <param name="fields"></param>
-        /// <param name="requestType"></param>
         /// <returns></returns>
-        private string BuildRequestUri(double latitude, double longitude, string endPoint, string unitSystem, params string[] fields)
+        public async Task<Nowcast[]> GetNowcast(double latitude, double longitude, int timestep, DateTime startTime, DateTime? endTime, string unitSystem, params string[] fields)
+        {
+            if (fields.Length <= 0)
+            {
+                throw new ArgumentException($"{nameof(fields)} cannot be empty.");
+            }
+
+            var query = BuildRequestUri(latitude, longitude, Endpoint.NowCast, unitSystem ?? UnitSystem.Si, fields, timestep, startTime, endTime);
+            var response = await httpClient.HttpRequestAsync($"{baseUri}{query}").ConfigureAwait(false);
+            var responseContent = response.Content?.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return new Nowcast[1]
+                {
+                    new Nowcast
+                    {
+                        IsSuccessStatus = response.IsSuccessStatusCode,
+                        ResponseStatusCode = response.StatusCode,
+                        ResponseReasonPhrase = response.ReasonPhrase,
+                    }
+                };
+            }
+
+            Nowcast[] nowcastResponse;
+            try
+            {
+                nowcastResponse = await jsonSerializerService.DeserializeJsonAsync<Nowcast[]>(responseContent).ConfigureAwait(false);
+                foreach (Nowcast resp in nowcastResponse)
+                    resp.TranslateFromHttpMessage(response);
+            }
+            catch (FormatException e)
+            {
+                nowcastResponse = new Nowcast[1]
+                {
+                    new Nowcast
+                    {
+                        IsSuccessStatus = response.IsSuccessStatusCode,
+                        ResponseStatusCode = response.StatusCode,
+                        ResponseReasonPhrase = response.ReasonPhrase,
+                    }
+                };
+            }
+            return nowcastResponse;
+        }
+
+        /// <summary>
+        ///     Build a request uri for a climacell weather endpoint.
+        /// </summary>
+        /// <param name="latitude">Latitude to request data for in decimal degrees.</param>
+        /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
+        /// <param name="fields"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private string BuildRequestUri(double latitude, double longitude, string endPoint, string unitSystem, string[] fields, int? timestep = null, DateTime? startTime = null, DateTime? endTime = null)
         {
             var fieldString = Uri.EscapeUriString(String.Join(",", fields));
             var queryString = new StringBuilder($"{endPoint}?");
@@ -96,7 +158,9 @@
             queryString.Append($"&fields={fieldString}");
             queryString.Append($"&apikey={this.apiKey}");
 
-            Console.WriteLine(queryString);
+            queryString.Append((timestep.HasValue) ? $"&timestep={timestep}" : "");
+            queryString.Append((startTime.HasValue) ? $"&timestep={startTime.Value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}" : "");
+            queryString.Append((endTime.HasValue) ? $"&timestep={endTime.Value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}" : "");
             return queryString.ToString();
         }
 
