@@ -94,7 +94,7 @@
         /// <param name="unitSystem"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<Nowcast[]> GetNowcast(double latitude, double longitude, int timestep, DateTime startTime, DateTime? endTime, string unitSystem, params string[] fields)
+        public async Task<Nowcast[]> GetNowcast(double latitude, double longitude, int timestep, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
         {
             if (fields.Length <= 0)
             {
@@ -156,11 +156,12 @@
             queryString.Append(Invariant($"lat={latitude:N4}&lon={longitude:N4}"));
             queryString.Append($"&unit_system={unitSystem}");
             queryString.Append($"&fields={fieldString}");
-            queryString.Append($"&apikey={this.apiKey}");
 
             queryString.Append((timestep.HasValue) ? $"&timestep={timestep}" : "");
-            queryString.Append((startTime.HasValue) ? $"&timestep={startTime.Value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}" : "");
-            queryString.Append((endTime.HasValue) ? $"&timestep={endTime.Value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}" : "");
+            queryString.Append((startTime.HasValue) ? $"&start_time={startTime.Value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}" : "");
+            queryString.Append((endTime.HasValue) ? $"&end_time={endTime.Value.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}" : "");
+
+            queryString.Append($"&apikey={this.apiKey}");
             return queryString.ToString();
         }
 
