@@ -7,6 +7,7 @@
     using ClimaCellCore.Constants;
     using static System.FormattableString;
     using System.Globalization;
+    using System.Collections.Generic;
 
     public class ClimaCellService : IDisposable
     {
@@ -98,11 +99,11 @@
         /// <param name="unitSystem"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<Nowcast[]> GetNowcast(double latitude, double longitude, int timestep, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
+        public async Task<List<Nowcast>> GetNowcast(double latitude, double longitude, int timestep, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
         {
             if (fields.Length <= 0)
             {
-                return new Nowcast[1]
+                return new List<Nowcast>
                 {
                     new Nowcast
                     {
@@ -118,7 +119,7 @@
 
             if (!response.IsSuccessStatusCode)
             {
-                return new Nowcast[1]
+                return new List<Nowcast>
                 {
                     new Nowcast
                     {
@@ -129,16 +130,16 @@
                 };
             }
 
-            Nowcast[] nowcastResponse;
+            List<Nowcast> nowcastResponse;
             try
             {
-                nowcastResponse = await jsonSerializerService.DeserializeJsonAsync<Nowcast[]>(responseContent).ConfigureAwait(false);
+                nowcastResponse = await jsonSerializerService.DeserializeJsonAsync<List<Nowcast>>(responseContent).ConfigureAwait(false);
                 foreach (Nowcast resp in nowcastResponse)
                     resp.TranslateFromHttpMessage(response);
             }
             catch (FormatException e)
             {
-                nowcastResponse = new Nowcast[1]
+                nowcastResponse = new List<Nowcast>
                 {
                     new Nowcast
                     {
@@ -160,11 +161,11 @@
         /// <param name="unitSystem"></param>
         /// <param name="fields"></param>
         /// <returns></returns>
-        public async Task<Hourly[]> GetHourly(double latitude, double longitude, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
+        public async Task<List<Hourly>> GetHourly(double latitude, double longitude, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
         {
             if (fields.Length <= 0)
             {
-                return new Hourly[1]
+                return new List<Hourly>
                 {
                     new Hourly
                     {
@@ -180,7 +181,7 @@
 
             if (!response.IsSuccessStatusCode)
             {
-                return new Hourly[1]
+                return new List<Hourly>
                 {
                     new Hourly
                     {
@@ -191,16 +192,16 @@
                 };
             }
 
-            Hourly[] hourlyResponse;
+            List<Hourly> hourlyResponse;
             try
             {
-                hourlyResponse = await jsonSerializerService.DeserializeJsonAsync<Hourly[]>(responseContent).ConfigureAwait(false);
+                hourlyResponse = await jsonSerializerService.DeserializeJsonAsync<List<Hourly>>(responseContent).ConfigureAwait(false);
                 foreach (Hourly resp in hourlyResponse)
                     resp.TranslateFromHttpMessage(response);
             }
             catch (FormatException e)
             {
-                hourlyResponse = new Hourly[1]
+                hourlyResponse = new List<Hourly>
                 {
                     new Hourly
                     {
