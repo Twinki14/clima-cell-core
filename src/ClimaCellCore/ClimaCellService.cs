@@ -41,9 +41,9 @@ namespace ClimaCellCore
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
-        /// <param name="unitSystem"></param>
-        /// <param name="fields"></param>
-        /// <returns>A ClimaCellCore Realtime response</returns>
+        /// <param name="unitSystem">Unit system.</param>
+        /// <param name="fields">Fields to request from ClimaCell.</param>
+        /// <returns>A ClimaCell Realtime response</returns>
         /// <remarks>Will not check if the passed data layer field(s) can be used in the Realtime climacell endpoint.</remarks>
         public async Task<Realtime> GetRealtime(double latitude, double longitude, string unitSystem, params string[] fields)
         {
@@ -63,135 +63,95 @@ namespace ClimaCellCore
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
-        /// <param name="timestep">Time step in minutes, 1-60.</param>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="unitSystem"></param>
-        /// /// <param name="fields"></param>
-        /// <returns></returns>
-/*        public async Task<List<Nowcast>> GetNowcast(double latitude, double longitude, int timestep, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
+        /// <param name="timestep">Time step between each observation, in minutes, 1-60.</param>
+        /// <param name="startTime">Starting observation time, passing null will start the observation(s) at the current time.</param>
+        /// <param name="endTime">Ending observation time, passing null will use the maximum observation time the endpoint supports.</param>
+        /// <param name="unitSystem">Unit system.</param>
+        /// <param name="fields">Fields to request from ClimaCell.</param>
+        /// <returns>A ClimaCell 'Nowcast' response</returns>
+        public async Task<Nowcast> GetNowcast(double latitude, double longitude, int timestep, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
         {
             if (fields.Length <= 0)
             {
-                return new List<Nowcast>
-                {
-                    new Nowcast
-                    {
-                        IsSuccessStatus = false,
-                        ResponseReasonPhrase = $"{nameof(fields)} cannot be empty.",
-                    }
-                };
+                return new Nowcast() { Response = new ClimaCellResponse() { IsSuccessStatus = false, ReasonPhrase = $"{nameof(fields)} cannot be empty." } };
             }
 
             var query = BuildRequestUri(latitude, longitude, Endpoint.NowCast, unitSystem ?? UnitSystem.Si, fields, timestep, startTime, endTime);
             var response = await httpClient.HttpRequestAsync($"{baseUri}{query}").ConfigureAwait(false);
-            var responseContent = response.Content?.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return new List<Nowcast>
-                {
-                    new Nowcast
-                    {
-                        IsSuccessStatus = response.IsSuccessStatusCode,
-                        ResponseStatusCode = response.StatusCode,
-                        ResponseReasonPhrase = response.ReasonPhrase,
-                    }
-                };
-            }
-
-            List<Nowcast> nowcastResponse;
-            try
-            {
-                nowcastResponse = await jsonSerializerService.DeserializeJsonAsync<List<Nowcast>>(responseContent).ConfigureAwait(false);
-                foreach (Nowcast resp in nowcastResponse)
-                    resp.TranslateFromHttpMessage(response);
-            }
-            catch (FormatException e)
-            {
-                nowcastResponse = new List<Nowcast>
-                {
-                    new Nowcast
-                    {
-                        IsSuccessStatus = false,
-                        ResponseReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}",
-                    }
-                };
-            }
-            return nowcastResponse;
-        }*/
+            return await Nowcast.Deserialize(response, jsonSerializerService);
+        }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="latitude"></param>
-        /// <param name="longitude"></param>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="unitSystem"></param>
-        /// <param name="fields"></param>
-        /// <returns></returns>
-/*        public async Task<List<Hourly>> GetHourly(double latitude, double longitude, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
+        /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
+        /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
+        /// <param name="startTime">Starting observation time, passing null will start the observation(s) at the current time.</param>
+        /// <param name="endTime">Ending observation time, passing null will use the maximum observation time the endpoint supports.</param>
+        /// <param name="unitSystem">Unit system.</param>
+        /// <param name="fields">Fields to request from ClimaCell.</param>
+        /// <returns>A ClimaCell 'Hourly' response</returns>
+        public async Task<Hourly> GetHourly(double latitude, double longitude, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
         {
             if (fields.Length <= 0)
             {
-                return new List<Hourly>
-                {
-                    new Hourly
-                    {
-                        IsSuccessStatus = false,
-                        ResponseReasonPhrase = $"{nameof(fields)} cannot be empty.",
-                    }
-                };
+                return new Hourly() { Response = new ClimaCellResponse() { IsSuccessStatus = false, ReasonPhrase = $"{nameof(fields)} cannot be empty." } };
             }
 
             var query = BuildRequestUri(latitude, longitude, Endpoint.Hourly, unitSystem ?? UnitSystem.Si, fields, null, startTime, endTime);
             var response = await httpClient.HttpRequestAsync($"{baseUri}{query}").ConfigureAwait(false);
-            var responseContent = response.Content?.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
+            return await Hourly.Deserialize(response, jsonSerializerService);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
+        /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
+        /// <param name="startTime">Starting observation time, passing null will start the observation(s) at the current time.</param>
+        /// <param name="endTime">Ending observation time, passing null will use the maximum observation time the endpoint supports.</param>
+        /// <param name="unitSystem">Unit system.</param>
+        /// <param name="fields">Fields to request from ClimaCell.</param>
+        /// <returns>A ClimaCell 'Daily' response</returns>
+        public async Task<Daily> GetDaily(double latitude, double longitude, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
+        {
+            if (fields.Length <= 0)
             {
-                return new List<Hourly>
-                {
-                    new Hourly
-                    {
-                        IsSuccessStatus = response.IsSuccessStatusCode,
-                        ResponseStatusCode = response.StatusCode,
-                        ResponseReasonPhrase = response.ReasonPhrase,
-                    }
-                };
+                return new Daily() { Response = new ClimaCellResponse() { IsSuccessStatus = false, ReasonPhrase = $"{nameof(fields)} cannot be empty." } };
             }
 
-            List<Hourly> hourlyResponse;
-            try
-            {
-                hourlyResponse = await jsonSerializerService.DeserializeJsonAsync<List<Hourly>>(responseContent).ConfigureAwait(false);
-                foreach (Hourly resp in hourlyResponse)
-                    resp.TranslateFromHttpMessage(response);
-            }
-            catch (FormatException e)
-            {
-                hourlyResponse = new List<Hourly>
-                {
-                    new Hourly
-                    {
-                        IsSuccessStatus = false,
-                        ResponseReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}",
-                    }
-                };
-            }
-            return hourlyResponse;
-        }*/
+            var query = BuildRequestUri(latitude, longitude, Endpoint.Daily, unitSystem ?? UnitSystem.Si, fields, null, startTime, endTime);
+            var response = await httpClient.HttpRequestAsync($"{baseUri}{query}").ConfigureAwait(false);
+
+            return await Daily.Deserialize(response, jsonSerializerService);
+        }
+
 
         /// <summary>
         ///     Build a request uri for a climacell weather endpoint.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
-        /// <param name="fields"></param>
-        /// <param name="endPoint"></param>
+        /// <param name="fields">Fields to request from ClimaCell.</param>
+        /// <param name="endPoint">Target endpoint.</param>
         /// <returns></returns>
-        private string BuildRequestUri(double latitude, double longitude, string endPoint, string unitSystem, string[] fields, int? timestep = null, DateTime? startTime = null, DateTime? endTime = null)
+
+        /// <summary>
+        ///     Build a request uri for a climacell weather endpoint.
+        /// </summary>
+        /// <param name="latitude">Latitude to request data for in decimal degrees.</param>
+        /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
+        /// <param name="endPoint">Target endpoint.</param>
+        /// <param name="unitSystem"></param>
+        /// <param name="fields">Fields to request from ClimaCell.</param>
+        /// <param name="timestep">Time step between each observation.</param>
+        /// <param name="startTime">Starting observation time, passing null will start the observation(s) at the current time.</param>
+        /// <param name="endTime">Ending observation time, passing null will use the maximum observation time the endpoint supports.</param>
+        /// <returns>A uri constructed for use with climacells' 3.0 api</returns>
+        private string BuildRequestUri(double latitude, double longitude, string endPoint, string unitSystem, string[] fields,
+                                        int? timestep = null, DateTime? startTime = null, DateTime? endTime = null)
         {
             var fieldString = Uri.EscapeUriString(String.Join(",", fields));
             var queryString = new StringBuilder($"{endPoint}?");
