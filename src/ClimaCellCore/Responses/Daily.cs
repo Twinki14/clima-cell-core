@@ -8,19 +8,19 @@ using ClimaCellCore.Services;
 
 namespace ClimaCellCore
 {
-    public struct HistoricalValueUnit
+    public class HistoricalValueUnit
     {
         public DateTime ObservationTime { get; set; }
         public double Value { get; set; }
         public string Units { get; set; }
     }
 
-    public struct HistoricalMax
+    public class HistoricalMax
     {
         public HistoricalValueUnit Max { get; set; }
     }
 
-    public struct HistoricalMinMax
+    public class HistoricalMinMax
     {
         public HistoricalValueUnit Min { get; set; }
         public HistoricalValueUnit Max { get; set; }
