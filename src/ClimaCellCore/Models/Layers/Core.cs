@@ -1,12 +1,12 @@
-﻿namespace ClimaCellCore.Models
-{
-    using System;
-    using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
+namespace ClimaCellCore.Models
+{
     public class Temp
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -15,7 +15,7 @@
     public class FeelsLike
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -24,7 +24,7 @@
     public class Dewpoint
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -33,7 +33,7 @@
     public class Humidity
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -42,7 +42,7 @@
     public class WindSpeed
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -51,7 +51,7 @@
     public class WindDirection
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -60,7 +60,7 @@
     public class WindGust
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -69,7 +69,7 @@
     public class BaroPressure
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -78,7 +78,7 @@
     public class Precipitation
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -94,12 +94,15 @@
     {
         [JsonProperty("value")]
         public string Value { get; set; }
+        
+        [JsonProperty("units")]
+        public string Units { get; set; }
     }
 
     public class PrecipitationAccumulation
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -120,7 +123,7 @@
     public class Visibility
     {
         [JsonProperty("value")]
-        public float Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -129,7 +132,7 @@
     public class CloudCover
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -138,7 +141,7 @@
     public class CloudBase
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -147,7 +150,7 @@
     public class CloudCeiling
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -156,7 +159,7 @@
     public class SurfaceShortwaveRadiation
     {
         [JsonProperty("value")]
-        public int Value { get; set; }
+        public double Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }

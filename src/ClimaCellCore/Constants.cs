@@ -1,4 +1,4 @@
-﻿namespace ClimaCellCore.Constants
+﻿namespace ClimaCellCore
 {
     /// <summary>
     ///     climacell 'Core' data layer
@@ -67,9 +67,9 @@
     public static class Endpoint
     {
         public static readonly string Realtime = "realtime";
-        public static readonly string NowCast  = "nowcast";
-        public static readonly string Hourly   = "forecast/hourly";
-        public static readonly string Daily    = "forecast/daily";
+        public static readonly string NowCast = "nowcast";
+        public static readonly string Hourly = "forecast/hourly";
+        public static readonly string Daily = "forecast/daily";
     }
 
     /// <summary>

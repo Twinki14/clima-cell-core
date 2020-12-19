@@ -1,8 +1,13 @@
-﻿namespace ClimaCellCore.Models
-{
-    using Newtonsoft.Json;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using ClimaCellCore.Models;
+using ClimaCellCore.Services;
 
-    public class Nowcast : ClimaCellResponse
+namespace ClimaCellCore
+{
+    public class Realtime : RealtimeResponse
     {
         [JsonProperty("temp")]
         public Temp Temp { get; set; }
@@ -23,7 +28,7 @@
         public WindSpeed WindDirection { get; set; }
 
         [JsonProperty("wind_gust")]
-        public WindGust WindGust{ get; set; }
+        public WindGust WindGust { get; set; }
 
         [JsonProperty("baro_pressure")]
         public BaroPressure BaroPressure { get; set; }
@@ -55,6 +60,9 @@
         [JsonProperty("surface_shortwave_radiation")]
         public SurfaceShortwaveRadiation SurfaceShortwaveRadiation { get; set; }
 
+        [JsonProperty("moon_phase")]
+        public MoonPhase MoonPhase { get; set; }
+
         [JsonProperty("weather_code")]
         public WeatherCode WeatherCode { get; set; }
 
@@ -65,11 +73,11 @@
         public Pm10 Pm10 { get; set; }
 
         [JsonProperty("o3")]
-        public O3 O3 { get; set; }        
-        
+        public O3 O3 { get; set; }
+
         [JsonProperty("no2")]
-        public NO2 NO2 { get; set; }        
-        
+        public NO2 NO2 { get; set; }
+
         [JsonProperty("co")]
         public CO CO { get; set; }
 
@@ -105,5 +113,21 @@
 
         [JsonProperty("observation_time")]
         public ObservationTime ObservationTime { get; set; }
+
+        public static new async Task<Realtime> Deserialize(HttpResponseMessage responseMessage, IJsonSerializerService jsonSerializerService)
+        {
+            Realtime r = new Realtime();
+            try
+            {
+                r = await jsonSerializerService.DeserializeJsonAsync<Realtime>(responseMessage.Content?.ReadAsStringAsync()).ConfigureAwait(false);
+                r.Response = new ClimaCellResponse(responseMessage);
+            }
+            catch (FormatException e)
+            {
+                r.Response.IsSuccessStatus = false;
+                r.Response.ReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}";
+            }
+            return r;
+        }
     }
 }
