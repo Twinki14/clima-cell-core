@@ -1,7 +1,7 @@
-﻿namespace ClimaCellCore.Models
-{
-    using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
+namespace ClimaCellCore.Models
+{
     public class PollenTree
     {
         [JsonProperty("value")]

@@ -5,13 +5,13 @@
   * @github     https://github.com/amweiss/dark-sky-core/blob/master/src/Services/ZipHttpClient.cs
   */
 
+using System;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 namespace ClimaCellCore.Services
 {
-    using System;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-
     /// <summary>
     ///     An implementation of <see cref="IHttpClient" /> that uses
     ///     <see

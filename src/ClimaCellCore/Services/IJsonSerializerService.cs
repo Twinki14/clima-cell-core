@@ -5,10 +5,10 @@
   * @github     https://github.com/amweiss/dark-sky-core/blob/master/src/Services/IJsonSerializerService.cs
   */
 
+using System.Threading.Tasks;
+
 namespace ClimaCellCore.Services
 {
-    using System.Threading.Tasks;
-
     /// <summary>
     ///     Interface to use for handling JSON serialization.
     /// </summary>

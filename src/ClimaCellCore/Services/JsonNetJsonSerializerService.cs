@@ -5,12 +5,12 @@
   * @github     https://github.com/amweiss/dark-sky-core/blob/master/src/Services/JsonNetJsonSerializerService.cs
   */
 
+using System;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+
 namespace ClimaCellCore.Services
 {
-    using System;
-    using System.Threading.Tasks;
-    using Newtonsoft.Json;
-
     /// <summary>
     ///     Interface to use for handling JSON serialization via Json.NET
     /// </summary>
