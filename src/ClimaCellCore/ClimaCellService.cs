@@ -128,16 +128,6 @@ namespace ClimaCellCore
             return await Daily.Deserialize(response, jsonSerializerService);
         }
 
-
-        /// <summary>
-        ///     Build a request uri for a climacell weather endpoint.
-        /// </summary>
-        /// <param name="latitude">Latitude to request data for in decimal degrees.</param>
-        /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
-        /// <param name="fields">Fields to request from ClimaCell.</param>
-        /// <param name="endPoint">Target endpoint.</param>
-        /// <returns></returns>
-
         /// <summary>
         ///     Build a request uri for a climacell weather endpoint.
         /// </summary>
