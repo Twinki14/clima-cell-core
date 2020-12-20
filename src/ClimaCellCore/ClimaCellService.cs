@@ -16,13 +16,13 @@ namespace ClimaCellCore
         private readonly IJsonSerializerService jsonSerializerService;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ClimaCellService" /> class. A wrapper for the
-        ///     ClimaCellCore API.
+        ///     Initializes a new instance of the <see cref="ClimaCellService"/> class. A wrapper for the
+        ///     <see href="https://developer.climacell.co/">climacell API</see>.
         /// </summary>
-        /// <param name="apiKey">A ClimaCellCore API key.</param>
-        /// <param name="baseUri">Base URI for the ClimaCellCore API. Defaults to https://api.climacell.co/v3/weather/ .</param>
-        /// <param name="httpClient"> An optional HTTP client to contact an API with (useful for mocking data for testing).</param>
-        /// <param name="jsonSerializerService"> An optional JSON Serializer to handle converting the response string to an object.</param>
+        /// <param name="apiKey">A climacell API key.</param>
+        /// <param name="baseUri">Base URI for the climacell API. Defaults to https://api.climacell.co/v3/weather/.</param>
+        /// <param name="httpClient">An optional HTTP client to contact an API with (useful for mocking data for testing).</param>
+        /// <param name="jsonSerializerService">An optional JSON Serializer to handle converting the response string to an object.</param>
         public ClimaCellService(string apiKey, Uri baseUri = null, IHttpClient httpClient = null, IJsonSerializerService jsonSerializerService = null)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
@@ -37,13 +37,13 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        ///     Make a request for realtime weather data.
+        ///     Create and submit a request for climacell's 'Realtime' present endpoint.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
         /// <param name="unitSystem">Unit system.</param>
-        /// <param name="fields">Fields to request from ClimaCell.</param>
-        /// <returns>A ClimaCell Realtime response</returns>
+        /// <param name="fields">Fields to request from climacell.</param>
+        /// <returns>A climacell Realtime response.</returns>
         /// <remarks>Will not check if the passed data layer field(s) can be used in the Realtime climacell endpoint.</remarks>
         public async Task<Realtime> GetRealtime(double latitude, double longitude, string unitSystem, params string[] fields)
         {
@@ -59,7 +59,7 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        /// 
+        ///     Create and submit a request for climacell's 'Nowcast' historical endpoint.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
@@ -67,8 +67,8 @@ namespace ClimaCellCore
         /// <param name="startTime">Starting observation time, passing null will start the observation(s) at the current time.</param>
         /// <param name="endTime">Ending observation time, passing null will use the maximum observation time the endpoint supports.</param>
         /// <param name="unitSystem">Unit system.</param>
-        /// <param name="fields">Fields to request from ClimaCell.</param>
-        /// <returns>A ClimaCell 'Nowcast' response</returns>
+        /// <param name="fields">Fields to request from climacell.</param>
+        /// <returns>A climacell 'Nowcast' response.</returns>
         public async Task<Nowcast> GetNowcast(double latitude, double longitude, int timestep, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
         {
             if (fields.Length <= 0)
@@ -83,15 +83,15 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        /// 
+        ///     Create and submit a request for climacell's 'Hourly' historical endpoint.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
         /// <param name="startTime">Starting observation time, passing null will start the observation(s) at the current time.</param>
         /// <param name="endTime">Ending observation time, passing null will use the maximum observation time the endpoint supports.</param>
         /// <param name="unitSystem">Unit system.</param>
-        /// <param name="fields">Fields to request from ClimaCell.</param>
-        /// <returns>A ClimaCell 'Hourly' response</returns>
+        /// <param name="fields">Fields to request from climacell.</param>
+        /// <returns>A climacell 'Hourly' response.</returns>
         public async Task<Hourly> GetHourly(double latitude, double longitude, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
         {
             if (fields.Length <= 0)
@@ -106,15 +106,15 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        /// 
+        ///     Create and submit a request for climacell's 'Daily' historical endpoint.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
         /// <param name="startTime">Starting observation time, passing null will start the observation(s) at the current time.</param>
         /// <param name="endTime">Ending observation time, passing null will use the maximum observation time the endpoint supports.</param>
         /// <param name="unitSystem">Unit system.</param>
-        /// <param name="fields">Fields to request from ClimaCell.</param>
-        /// <returns>A ClimaCell 'Daily' response</returns>
+        /// <param name="fields">Fields to request from climacell.</param>
+        /// <returns>A climacell 'Daily' response.</returns>
         public async Task<Daily> GetDaily(double latitude, double longitude, DateTime? startTime, DateTime? endTime, string unitSystem, params string[] fields)
         {
             if (fields.Length <= 0)
@@ -135,11 +135,11 @@ namespace ClimaCellCore
         /// <param name="longitude">Longitude to request data for in decimal degrees.</param>
         /// <param name="endPoint">Target endpoint.</param>
         /// <param name="unitSystem"></param>
-        /// <param name="fields">Fields to request from ClimaCell.</param>
+        /// <param name="fields">Fields to request from climacell.</param>
         /// <param name="timestep">Time step between each observation.</param>
         /// <param name="startTime">Starting observation time, passing null will start the observation(s) at the current time.</param>
         /// <param name="endTime">Ending observation time, passing null will use the maximum observation time the endpoint supports.</param>
-        /// <returns>A uri constructed for use with climacells' 3.0 api</returns>
+        /// <returns>A uri constructed for use with climacells' 3.0 api.</returns>
         private string BuildRequestUri(double latitude, double longitude, string endPoint, string unitSystem, string[] fields,
                                         int? timestep = null, DateTime? startTime = null, DateTime? endTime = null)
         {
