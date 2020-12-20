@@ -5,6 +5,9 @@ using System.Net.Http.Headers;
 
 namespace ClimaCellCore.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ClimaCellResponse
     {
         public string AttributionLine => "Powered by ClimaCell";

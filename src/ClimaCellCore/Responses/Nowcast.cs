@@ -8,7 +8,7 @@ using ClimaCellCore.Services;
 
 namespace ClimaCellCore
 {
-    public class Nowcast : HistoricalResponse<Nowcast.Model>
+    public class Nowcast : ForecastResponse<Nowcast.Model>
     {
         public class Model
         {
@@ -115,12 +115,16 @@ namespace ClimaCellCore
             public ObservationTime ObservationTime { get; set; }
         }
 
+        /// <summary>
+        ///     Attempts to deserialize and initialize the parent class with the response content using the 
+        ///         <see cref="IJsonSerializerService"/> defined in the calling <see cref="ClimaCellService"/> instance.
+        /// </summary>
         public static new async Task<Nowcast> Deserialize(HttpResponseMessage responseMessage, IJsonSerializerService jsonSerializerService)
         {
             Nowcast h = new Nowcast() { Response = new ClimaCellResponse(responseMessage) };
             try
             {
-                h._objects = await jsonSerializerService.DeserializeJsonAsync<List<Nowcast.Model>>(responseMessage.Content?.ReadAsStringAsync()).ConfigureAwait(false);
+                h._dataPoints = await jsonSerializerService.DeserializeJsonAsync<List<Nowcast.Model>>(responseMessage.Content?.ReadAsStringAsync()).ConfigureAwait(false);
             }
             catch (FormatException e)
             {

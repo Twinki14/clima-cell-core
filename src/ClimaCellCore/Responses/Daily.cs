@@ -8,52 +8,56 @@ using ClimaCellCore.Services;
 
 namespace ClimaCellCore
 {
-    public class HistoricalValueUnit
+    public class ForecastValueUnit
     {
         public DateTime ObservationTime { get; set; }
         public double Value { get; set; }
         public string Units { get; set; }
     }
 
-    public class HistoricalMax
+    public class ForecastMax
     {
-        public HistoricalValueUnit Max { get; set; }
+        public ForecastValueUnit Max { get; set; }
     }
 
-    public class HistoricalMinMax
+    public class ForecastMinMax
     {
-        public HistoricalValueUnit Min { get; set; }
-        public HistoricalValueUnit Max { get; set; }
+        public ForecastValueUnit Min { get; set; }
+        public ForecastValueUnit Max { get; set; }
     }
 
-    public class Daily : HistoricalResponse<Daily.Model>
+    public class Daily : ForecastResponse<Daily.Model>
     {
         public class Model
         {
-            public HistoricalMinMax Temp { get; set; }
-            public HistoricalMinMax FeelsLike { get; set; }
-            public HistoricalMinMax Dewpoint { get; set; }
-            public HistoricalMinMax Humidity { get; set; }
-            public HistoricalMinMax WindSpeed { get; set; }
-            public HistoricalMinMax WindDirection { get; set; }
-            public HistoricalMinMax BaroPressure { get; set; }
-            public HistoricalMax Precipitation { get; set; }
+            public ForecastMinMax Temp { get; set; }
+            public ForecastMinMax FeelsLike { get; set; }
+            public ForecastMinMax Dewpoint { get; set; }
+            public ForecastMinMax Humidity { get; set; }
+            public ForecastMinMax WindSpeed { get; set; }
+            public ForecastMinMax WindDirection { get; set; }
+            public ForecastMinMax BaroPressure { get; set; }
+            public ForecastMax Precipitation { get; set; }
             public PrecipitationProbability PrecipitationProbability { get; set; }
             public PrecipitationAccumulation PrecipitationAccumulation { get; set; }
             public Sunrise Sunrise { get; set; }
             public Sunset Sunset { get; set; }
-            public HistoricalMinMax Visibility { get; set; }
+            public ForecastMinMax Visibility { get; set; }
             public WeatherCode WeatherCode { get; set; }
             public ObservationTime ObservationTime { get; set; }
         }
 
+        /// <summary>
+        ///     Attempts to deserialize and initialize the parent class with the response content using the 
+        ///         <see cref="IJsonSerializerService"/> defined in the calling <see cref="ClimaCellService"/> instance.
+        /// </summary>
         public static new async Task<Daily> Deserialize(HttpResponseMessage responseMessage, IJsonSerializerService jsonSerializerService)
         {
             Daily d = new Daily() { Response = new ClimaCellResponse(responseMessage) };
             try
             {
-                var models = await jsonSerializerService.DeserializeJsonAsync<List<Daily._Model>>(responseMessage.Content?.ReadAsStringAsync()).ConfigureAwait(false);
-                d._objects = models.ConvertAll(d => _Model.ToDaily(d));
+                var models = await jsonSerializerService.DeserializeJsonAsync<List<_model>>(responseMessage.Content?.ReadAsStringAsync()).ConfigureAwait(false);
+                d._dataPoints = models.ConvertAll(d => _model.ToDaily(d));
             }
             catch (FormatException e)
             {
@@ -64,11 +68,11 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        ///     Internal json model for a climacell daily response, due to the way climacell structures their daily historical response objects
-        ///         the model is split up between a public front-facing model, and a private protected internal model.
-        ///     This is to make using the data from climacell easy, and understandable
+        ///     Internal json model for a climacell daily response, due to the way climacell structures their daily forecast response objects
+        ///         the model is split up between the client-facing model, and this internal model.
+        ///     When deserializing the internal model objects are converted to the client-facing model. <see cref="ToDaily(_model)"/>.
         /// </summary>
-        private protected class _Model
+        private protected class _model
         {
             public class DailyTemp
             {
@@ -220,21 +224,21 @@ namespace ClimaCellCore
             [JsonProperty("observation_time")]
             public ObservationTime ObservationTime { get; set; }
 
-            public static Daily.Model ToDaily(_Model m)
+            public static Model ToDaily(_model m)
             {
-                Daily.Model d = new Daily.Model();
+                Model d = new Model();
 
                 if (m.Temp?.Count == 2)
                 {
-                    d.Temp = new HistoricalMinMax()
+                    d.Temp = new ForecastMinMax()
                     {
-                        Min = new HistoricalValueUnit()
+                        Min = new ForecastValueUnit()
                         {
                             ObservationTime = m.Temp[0].ObservationTime,
                             Value = m.Temp[0].Min.Value,
                             Units = m.Temp[0].Min.Units,
                         },
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.Temp[1].ObservationTime,
                             Value = m.Temp[1].Max.Value,
@@ -245,15 +249,15 @@ namespace ClimaCellCore
 
                 if (m.FeelsLike?.Count == 2)
                 {
-                    d.FeelsLike = new HistoricalMinMax()
+                    d.FeelsLike = new ForecastMinMax()
                     {
-                        Min = new HistoricalValueUnit()
+                        Min = new ForecastValueUnit()
                         {
                             ObservationTime = m.FeelsLike[0].ObservationTime,
                             Value = m.FeelsLike[0].Min.Value,
                             Units = m.FeelsLike[0].Min.Units,
                         },
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.FeelsLike[1].ObservationTime,
                             Value = m.FeelsLike[1].Max.Value,
@@ -264,15 +268,15 @@ namespace ClimaCellCore
 
                 if (m.Dewpoint?.Count == 2)
                 {
-                    d.Dewpoint = new HistoricalMinMax()
+                    d.Dewpoint = new ForecastMinMax()
                     {
-                        Min = new HistoricalValueUnit()
+                        Min = new ForecastValueUnit()
                         {
                             ObservationTime = m.Dewpoint[0].ObservationTime,
                             Value = m.Dewpoint[0].Min.Value,
                             Units = m.Dewpoint[0].Min.Units,
                         },
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.Dewpoint[1].ObservationTime,
                             Value = m.Dewpoint[1].Max.Value,
@@ -283,15 +287,15 @@ namespace ClimaCellCore
 
                 if (m.Humidity?.Count == 2)
                 {
-                    d.Humidity = new HistoricalMinMax()
+                    d.Humidity = new ForecastMinMax()
                     {
-                        Min = new HistoricalValueUnit()
+                        Min = new ForecastValueUnit()
                         {
                             ObservationTime = m.Humidity[0].ObservationTime,
                             Value = m.Humidity[0].Min.Value,
                             Units = m.Humidity[0].Min.Units,
                         },
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.Humidity[1].ObservationTime,
                             Value = m.Humidity[1].Max.Value,
@@ -302,15 +306,15 @@ namespace ClimaCellCore
 
                 if (m.WindSpeed?.Count == 2)
                 {
-                    d.WindSpeed = new HistoricalMinMax()
+                    d.WindSpeed = new ForecastMinMax()
                     {
-                        Min = new HistoricalValueUnit()
+                        Min = new ForecastValueUnit()
                         {
                             ObservationTime = m.WindSpeed[0].ObservationTime,
                             Value = m.WindSpeed[0].Min.Value,
                             Units = m.WindSpeed[0].Min.Units,
                         },
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.WindSpeed[1].ObservationTime,
                             Value = m.WindSpeed[1].Max.Value,
@@ -321,15 +325,15 @@ namespace ClimaCellCore
 
                 if (m.WindDirection?.Count == 2)
                 {
-                    d.WindDirection = new HistoricalMinMax()
+                    d.WindDirection = new ForecastMinMax()
                     {
-                        Min = new HistoricalValueUnit()
+                        Min = new ForecastValueUnit()
                         {
                             ObservationTime = m.WindDirection[0].ObservationTime,
                             Value = m.WindDirection[0].Min.Value,
                             Units = m.WindDirection[0].Min.Units,
                         },
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.WindDirection[1].ObservationTime,
                             Value = m.WindDirection[1].Max.Value,
@@ -340,15 +344,15 @@ namespace ClimaCellCore
 
                 if (m.BaroPressure?.Count == 2)
                 {
-                    d.BaroPressure = new HistoricalMinMax()
+                    d.BaroPressure = new ForecastMinMax()
                     {
-                        Min = new HistoricalValueUnit()
+                        Min = new ForecastValueUnit()
                         {
                             ObservationTime = m.BaroPressure[0].ObservationTime,
                             Value = m.BaroPressure[0].Min.Value,
                             Units = m.BaroPressure[0].Min.Units,
                         },
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.BaroPressure[1].ObservationTime,
                             Value = m.BaroPressure[1].Max.Value,
@@ -359,9 +363,9 @@ namespace ClimaCellCore
 
                 if (m.Precipitation?.Count == 2)
                 {
-                    d.Precipitation = new HistoricalMax()
+                    d.Precipitation = new ForecastMax()
                     {
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.Precipitation[0].ObservationTime,
                             Value = m.Precipitation[0].Max.Value,
@@ -377,15 +381,15 @@ namespace ClimaCellCore
 
                 if (m.Visibility?.Count == 2)
                 {
-                    d.Visibility = new HistoricalMinMax()
+                    d.Visibility = new ForecastMinMax()
                     {
-                        Min = new HistoricalValueUnit()
+                        Min = new ForecastValueUnit()
                         {
                             ObservationTime = m.Visibility[0].ObservationTime,
                             Value = m.Visibility[0].Min.Value,
                             Units = m.Visibility[0].Min.Units,
                         },
-                        Max = new HistoricalValueUnit()
+                        Max = new ForecastValueUnit()
                         {
                             ObservationTime = m.Visibility[1].ObservationTime,
                             Value = m.Visibility[1].Max.Value,

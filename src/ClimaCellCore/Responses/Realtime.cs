@@ -7,7 +7,7 @@ using ClimaCellCore.Services;
 
 namespace ClimaCellCore
 {
-    public class Realtime : RealtimeResponse
+    public class Realtime : PresentResponse
     {
         [JsonProperty("temp")]
         public Temp Temp { get; set; }
@@ -114,6 +114,10 @@ namespace ClimaCellCore
         [JsonProperty("observation_time")]
         public ObservationTime ObservationTime { get; set; }
 
+        /// <summary>
+        ///     Attempts to deserialize and initialize the parent class with the response content using the 
+        ///         <see cref="IJsonSerializerService"/> defined in the calling <see cref="ClimaCellService"/> instance.
+        /// </summary>
         public static new async Task<Realtime> Deserialize(HttpResponseMessage responseMessage, IJsonSerializerService jsonSerializerService)
         {
             Realtime r = new Realtime();

@@ -8,7 +8,7 @@ using ClimaCellCore.Services;
 
 namespace ClimaCellCore
 {
-    public class Hourly : HistoricalResponse<Hourly.Model>
+    public class Hourly : ForecastResponse<Hourly.Model>
     {
         public class Model
         {
@@ -121,12 +121,16 @@ namespace ClimaCellCore
             public ObservationTime ObservationTime { get; set; }
         }
 
+        /// <summary>
+        ///     Attempts to deserialize and initialize the parent class with the response content using the 
+        ///         <see cref="IJsonSerializerService"/> defined in the calling <see cref="ClimaCellService"/> instance.
+        /// </summary>
         public static new async Task<Hourly> Deserialize(HttpResponseMessage responseMessage, IJsonSerializerService jsonSerializerService)
         {
             Hourly h = new Hourly() { Response = new ClimaCellResponse(responseMessage) };
             try
             {
-                h._objects = await jsonSerializerService.DeserializeJsonAsync<List<Hourly.Model>>(responseMessage.Content?.ReadAsStringAsync()).ConfigureAwait(false);
+                h._dataPoints = await jsonSerializerService.DeserializeJsonAsync<List<Hourly.Model>>(responseMessage.Content?.ReadAsStringAsync()).ConfigureAwait(false);
             }
             catch (FormatException e)
             {
