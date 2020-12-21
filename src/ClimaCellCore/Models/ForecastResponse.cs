@@ -7,31 +7,24 @@ using System.Threading.Tasks;
 namespace ClimaCellCore.Models
 {
     /// <summary>
-    ///     A subclass to assist with defining and implmenting classes for climacells 'Forcast' responses.
+    ///     A subclass to assist with defining and implmenting classes for climacells 'Forcast' type responses.
     /// </summary>
-    /// <typeparam name="T">The parent classes response model to use when deserializing.</typeparam>
+    /// <typeparam name="T">The parent classes weather datapoint model to use when deserializing and storing in a collection.</typeparam>
     public abstract class ForecastResponse<T>
     {
         /// <summary>
-        /// 
+        ///     Useful httpResponse and climacell metadata from a climacell response. See <see cref="ClimaCellResponse"/>.
         /// </summary>
-        /// <value></value>
         public ClimaCellResponse Response { get; set; }
 
         /// <summary>
-        /// 
+        ///     Public collection of the observed weather datapoints returned by a climacell forecast request.
         /// </summary>
-        /// <value></value>
         public IList<T> DataPoints { get { return _dataPoints; } }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <value></value>
         private protected List<T> _dataPoints { get; set; }
 
         /// <summary>
-        ///     Attempts to deserializes and initializes the parent class with the response content using the 
+        ///     Attempts to deserialize and initialize the parent class with the <see cref="HttpResponseMessage"/> using the 
         ///         <see cref="IJsonSerializerService"/> defined in the calling <see cref="ClimaCellService"/> instance.
         /// </summary>
         public static Task Deserialize(HttpResponseMessage responseMessage, IJsonSerializerService jsonSerializerService)
