@@ -8,48 +8,85 @@ using ClimaCellCore.Services;
 
 namespace ClimaCellCore
 {
-    public class ForecastValueUnit
-    {
-        public DateTime ObservationTime { get; set; }
-        public double Value { get; set; }
-        public string Units { get; set; }
-    }
-
-    public class ForecastMax
-    {
-        public ForecastValueUnit Max { get; set; }
-    }
-
-    public class ForecastMinMax
-    {
-        public ForecastValueUnit Min { get; set; }
-        public ForecastValueUnit Max { get; set; }
-    }
-
+    /// <summary>
+    ///     'Daily' climacell forecast response model.
+    /// </summary>
     public class Daily : ForecastResponse<Daily.Model>
     {
+        public class ForecastValueUnit
+        {
+            public DateTime ObservationTime { get; set; }
+            public double Value { get; set; }
+            public string Units { get; set; }
+        }
+
+        public class ForecastMax
+        {
+            public ForecastValueUnit Max { get; set; }
+        }
+
+        public class ForecastMinMax
+        {
+            public ForecastValueUnit Min { get; set; }
+            public ForecastValueUnit Max { get; set; }
+        }
+
+        /// <summary>
+        ///     Observed weather data model for a Daily climacell response.
+        /// </summary>
         public class Model
         {
+            /// <summary>Temperature.</summary>
             public ForecastMinMax Temp { get; set; }
+
+            /// <summary>Wind chill and heat window based on season.</summary>
             public ForecastMinMax FeelsLike { get; set; }
+
+            /// <summary>Temperature of the dew point.</summary>
             public ForecastMinMax Dewpoint { get; set; }
+
+            /// <summary>Percent relative humidity from 0 - 100%.</summary>
             public ForecastMinMax Humidity { get; set; }
+
+            /// <summary>Wind speed.</summary>
             public ForecastMinMax WindSpeed { get; set; }
+
+            /// <summary>Wind direction in polar degrees 0-360 where 0 is North.</summary>
             public ForecastMinMax WindDirection { get; set; }
+
+            /// <summary>Barometric pressure (MSL mean sea level).</summary>
             public ForecastMinMax BaroPressure { get; set; }
+
+            /// <summary>Precipitation intensity.</summary>
             public ForecastMax Precipitation { get; set; }
+
+            /// <summary>The chance that precipitation will occur at the forecast time within the hour or day.</summary>
             public PrecipitationProbability PrecipitationProbability { get; set; }
+
+            /// <summary>The accumulated amount of precipitation in the selected timestep.</summary>
             public PrecipitationAccumulation PrecipitationAccumulation { get; set; }
+
+            /// <summary>The times sunrise based on location.</summary>
             public Sunrise Sunrise { get; set; }
+
+            /// <summary>The times sunset based on location.</summary>
             public Sunset Sunset { get; set; }
+
+            /// <summary>Visibility distance.</summary>
             public ForecastMinMax Visibility { get; set; }
+
+            /// <summary>A textual field that conveys the weather conditions.</summary>
             public WeatherCode WeatherCode { get; set; }
+
+            /// <summary>The times the data was observed.</summary>
             public ObservationTime ObservationTime { get; set; }
         }
 
         /// <summary>
-        ///     Attempts to deserialize and initialize the parent class with the response content using the 
-        ///         <see cref="IJsonSerializerService"/> defined in the calling <see cref="ClimaCellService"/> instance.
+        ///     Attempts to initalize a new <see cref="Daily"/> from the responding <see cref="HttpResponseMessage"/>, and deserializes the response content
+        ///     using the <see cref="IJsonSerializerService"/> defined in the calling <see cref="ClimaCellService"/> instance and appends all model objects into the <see cref="ForecastResponse{T}.DataPoints"/> collection.
+        ///
+        ///     After deserializing, it'll then convert the private <see cref="_model"/> objects into the more readable public Daily <see cref="Model"/> using <see cref="_model.ToDaily(_model)"/>.
         /// </summary>
         public static new async Task<Daily> Deserialize(HttpResponseMessage responseMessage, IJsonSerializerService jsonSerializerService)
         {
@@ -224,6 +261,9 @@ namespace ClimaCellCore
             [JsonProperty("observation_time")]
             public ObservationTime ObservationTime { get; set; }
 
+            /// <summary>
+            ///     Intializes and returns a new <see cref="Model"/> instance and populates it from the passed <see cref="_model"/>.
+            /// </summary>
             public static Model ToDaily(_model m)
             {
                 Model d = new Model();
