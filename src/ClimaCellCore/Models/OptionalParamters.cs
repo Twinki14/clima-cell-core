@@ -2,6 +2,9 @@ using System;
 
 namespace ClimaCellCore.Models
 {
+    /// <summary>
+    ///     Optional paramaters for a climacell request made with a <see cref="ClimaCellService"/> instance.
+    /// </summary>
     public class OptionalParamters
     {
         /// <summary>
