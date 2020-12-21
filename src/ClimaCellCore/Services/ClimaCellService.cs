@@ -9,6 +9,9 @@ using System.Collections.Generic;
 
 namespace ClimaCellCore
 {
+    /// <summary>
+    ///     Wrapper service for the climacell API.
+    /// </summary>
     public class ClimaCellService : IDisposable
     {
         private readonly string apiKey;
@@ -49,7 +52,7 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        ///     Creates and submits a request to climacell's 'Realtime' present endpoint.
+        ///     A realtime call provides observational data at the present time, down to the minute.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
@@ -70,7 +73,7 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        ///     Create and submit a request for climacell's 'Nowcast' historical endpoint.
+        ///     A nowcast call provides forecasting data on a minute-­by-­minute basis.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
@@ -91,7 +94,7 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        ///     Create and submit a request for climacell's 'Hourly' historical endpoint.
+        ///    A hourly call provides a global hourly forecast, up to 108 hours (4.5 days) out.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>
@@ -112,7 +115,7 @@ namespace ClimaCellCore
         }
 
         /// <summary>
-        ///     Create and submit a request for climacell's 'Daily' historical endpoint.
+        ///     A daily call provides a global daily forecast with summaries up to 15 days out.
         /// </summary>
         /// <param name="latitude">Latitude to request data for in decimal degrees, -87 to 89.</param>
         /// <param name="longitude">Longitude to request data for in decimal degrees, -180 to 180.</param>

@@ -62,8 +62,8 @@
         public static class Pollen
         {
             public static readonly string Tree  = "pollen_tree";   /// <summary>ClimaCell pollen index for trees.</summary>
-            public static readonly string Weed  = "pollen_weed";   /// <summary>ClimaCell pollen index for weeds</summary>
-            public static readonly string Grass = "pollen_grass";  /// <summary>ClimaCell pollen index for grass</summary>
+            public static readonly string Weed  = "pollen_weed";   /// <summary>ClimaCell pollen index for weeds.</summary>
+            public static readonly string Grass = "pollen_grass";  /// <summary>ClimaCell pollen index for grass.</summary>
         }
     }
 }
