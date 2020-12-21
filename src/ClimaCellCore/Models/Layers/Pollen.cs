@@ -2,6 +2,7 @@
 
 namespace ClimaCellCore.Models
 {
+    /// <summary>ClimaCell pollen index for trees.</summary>
     public class PollenTree
     {
         [JsonProperty("value")]
@@ -11,6 +12,7 @@ namespace ClimaCellCore.Models
         public string Units { get; set; }
     }
 
+    /// <summary>ClimaCell pollen index for weeds.</summary>
     public class PollenWeed
     {
         [JsonProperty("value")]
@@ -20,6 +22,7 @@ namespace ClimaCellCore.Models
         public string Units { get; set; }
     }
 
+    /// <summary>ClimaCell pollen index for grass.</summary>
     public class PollenGrass
     {
         [JsonProperty("value")]
