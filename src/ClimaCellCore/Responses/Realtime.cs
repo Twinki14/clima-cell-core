@@ -166,16 +166,28 @@ namespace ClimaCellCore
         /// </summary>
         public static new async Task<Realtime> Deserialize(HttpResponseMessage responseMessage, IJsonSerializerService jsonSerializerService)
         {
-            Realtime r = new Realtime();
+            Realtime r;
             try
             {
                 r = await jsonSerializerService.DeserializeJsonAsync<Realtime>(responseMessage.Content?.ReadAsStringAsync()).ConfigureAwait(false);
-                r.Response = new ClimaCellResponse(responseMessage);
+                if (r != null)
+                {
+                    r.Response = new ClimaCellResponse(responseMessage);
+                } else
+                {
+                    r = new Realtime { Response = new ClimaCellResponse(responseMessage) };
+                }
             }
             catch (FormatException e)
             {
-                r.Response.IsSuccessStatus = false;
-                r.Response.ReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}";
+                r = new Realtime
+                {
+                    Response = new ClimaCellResponse
+                    {
+                        IsSuccessStatus = false,
+                        ReasonPhrase = $"Error parsing results: {e?.InnerException?.Message ?? e.Message}"
+                    }
+                };
             }
             return r;
         }
