@@ -6,7 +6,7 @@ namespace ClimaCellCore.Models
     public class Pm25
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -16,7 +16,7 @@ namespace ClimaCellCore.Models
     public class Pm10
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -26,7 +26,7 @@ namespace ClimaCellCore.Models
     public class O3
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -36,7 +36,7 @@ namespace ClimaCellCore.Models
     public class NO2
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -46,7 +46,7 @@ namespace ClimaCellCore.Models
     public class CO
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -56,7 +56,7 @@ namespace ClimaCellCore.Models
     public class SO2
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -66,7 +66,7 @@ namespace ClimaCellCore.Models
     public class EpaAQI
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
     }
 
     /// <summary>Primary pollutant per US EPA standard.</summary>
@@ -87,7 +87,7 @@ namespace ClimaCellCore.Models
     public class ChinaAQI
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
     }
 
     /// <summary>Primary pollutant per China MEP standard.</summary>
