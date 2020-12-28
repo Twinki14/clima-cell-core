@@ -1,14 +1,13 @@
 using System;
-using Xunit;
-using Moq;
-using ClimaCellCore;
-using ClimaCellCore.Services;
-using System.Collections.Generic;
-using ClimaCellCore.Tests.Fixtures;
 using System.Net;
-using System.Net.Http;
 using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Moq;
+using Xunit;
+using ClimaCellCore.Services;
+using ClimaCellCore.Tests.Fixtures;
 
 namespace ClimaCellCore.Tests
 {
@@ -76,7 +75,7 @@ namespace ClimaCellCore.Tests
             var fields = new List<string> { "temp", "feels_like", "dewpoint" };
 
             var fieldString = Uri.EscapeUriString(String.Join(",", fields));
-            var expectedQueryString = new StringBuilder($"realtime?"); // endpoint shouldn't matter
+            var expectedQueryString = new StringBuilder($"realtime?");
 
             expectedQueryString.Append($"lat={ResponseFixture.Latitude:N4}&lon={ResponseFixture.Longitude:N4}");
             expectedQueryString.Append($"&fields={fieldString}");

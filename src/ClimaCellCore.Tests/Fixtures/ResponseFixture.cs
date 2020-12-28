@@ -1,16 +1,16 @@
+using Moq;
+using System;
+using System.Globalization;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using ClimaCellCore;
+using ClimaCellCore.Services;
+
 namespace ClimaCellCore.Tests.Fixtures
 {
-    using Moq;
-    using System;
-    using System.Globalization;
-    using System.IO;
-    using System.Net;
-    using System.Net.Http;
-    using System.Threading.Tasks;
-    using ClimaCellCore;
-    using ClimaCellCore.Services;
-    using System.Collections.Generic;
-
     public class ResponseFixture
     {
         // The maximum number of requests that the API key is permitted to make per day/hour.
@@ -23,6 +23,12 @@ namespace ClimaCellCore.Tests.Fixtures
 
         public static double Latitude => 42.3026;
         public static double Longitude => -71.1760;
+
+        public static DateTime RealtimeObservationTime => DateTime.Parse($"2020-12-27T12:59:00.754Z", null, DateTimeStyles.AdjustToUniversal);
+
+        public static int NowcastDataPoints = 73;
+        public static int HourlyDataPoints = 109;
+        public static int DailyDataPoints = 15;
 
         // in seconds
         public static double ResponseTime => 0.200;
@@ -39,7 +45,7 @@ namespace ClimaCellCore.Tests.Fixtures
                 // so the passed fields do not matter at all
                 NormalRealtimeResponse = climaRealtimeService.GetRealtime(Latitude, Longitude, new List<string> { "mockField" }).Result;
             }
-       
+
             mockClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockNowcastResponse));
             using (var climaNowcastService = new ClimaCellService("FakeKey", httpClient: mockClient.Object))
             {
@@ -57,7 +63,7 @@ namespace ClimaCellCore.Tests.Fixtures
             {
                 NormalDailyResponse = climaDailyService.GetDaily(Latitude, Longitude, new List<string> { "mockField" }).Result;
             }
-            
+
             // BadRequest / Unauthorized request
             mockClient.Setup(f => f.HttpRequestAsync(It.IsAny<string>())).Returns(Task.FromResult(MockBadRequestResponse));
             using (var climaDailyService = new ClimaCellService("FakeKey", httpClient: mockClient.Object))
@@ -72,143 +78,9 @@ namespace ClimaCellCore.Tests.Fixtures
             }
         }
 
-        /** Fields:
-            temp
-            feels_like
-            dewpoint
-            wind_speed
-            wind_gust
-            baro_pressure
-            visibility
-            humidity
-            wind_direction
-            precipitation
-            precipitation_type
-            cloud_cover
-            cloud_ceiling
-            cloud_base
-            surface_shortwave_radiation
-            sunrise
-            sunset
-            moon_phase
-            weather_code
-            epa_aqi
-            epa_primary_pollutant
-            china_aqi
-            china_primary_pollutant
-            pm25
-            pm10
-            o3
-            no2
-            co
-            so2
-            epa_health_concern
-            china_health_concern
-            pollen_tree
-            pollen_weed
-            pollen_grass
-            observation_time 
-        **/
         public Realtime NormalRealtimeResponse { get; }
-
-        /** TimeStep 5 minutes, 73 expected objects
-            Fields:
-                temp
-                feels_like
-                dewpoint
-                wind_speed
-                wind_gust
-                baro_pressure
-                visibility
-                precipitation
-                cloud_cover
-                cloud_ceiling
-                cloud_base
-                surface_shortwave_radiation
-                humidity
-                wind_direction
-                precipitation_type
-                sunrise
-                sunset
-                epa_aqi
-                epa_primary_pollutant
-                china_aqi
-                china_primary_pollutant
-                pm25
-                pm10
-                o3
-                no2
-                co
-                so2
-                epa_health_concern
-                china_health_concern
-                pollen_tree
-                pollen_weed
-                pollen_grass
-                observation_time
-                weather_code
-        **/
         public Nowcast NormalNowcastResponse { get; }
-
-        /** Expected 110 objects
-            Fields:
-                temp
-                precipitation
-                precipitation_type
-                precipitation_probability
-                feels_like
-                humidity
-                baro_pressure
-                dewpoint
-                wind_speed
-                wind_gust
-                wind_direction
-                visibility
-                cloud_cover
-                cloud_ceiling
-                cloud_base
-                surface_shortwave_radiation
-                sunrise
-                sunset
-                moon_phase
-                weather_code
-                observation_time
-                epa_aqi
-                epa_primary_pollutant
-                china_aqi
-                china_primary_pollutant
-                pm25
-                pm10
-                o3
-                no2
-                co
-                so2
-                epa_health_concern
-                china_health_concern
-                pollen_tree
-                pollen_weed
-                pollen_grass
-        **/
         public Hourly NormalHourlyResponse { get; }
-
-        /** Expected 15 objects
-            Fields:
-                temp
-                precipitation_accumulation
-                precipitation
-                precipitation_probability
-                feels_like
-                humidity
-                baro_pressure
-                dewpoint
-                wind_speed
-                wind_direction
-                visibility
-                sunrise
-                sunset
-                weather_code
-                observation_time
-        **/
         public Daily NormalDailyResponse { get; }
 
         public Realtime BadRequestRealtimeResponse { get; }
@@ -224,10 +96,13 @@ namespace ClimaCellCore.Tests.Fixtures
                     Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/Realtime.Normal.json"))
                 };
 
-                response.Headers.Add("X-RateLimit-Limit-day", RateLimitLimitDay.ToString(CultureInfo.InvariantCulture));
-                response.Headers.Add("X-RateLimit-Remaining-day", RateLimitRemainingDay.ToString(CultureInfo.InvariantCulture));
-                response.Headers.Add("X-RateLimit-Remaining-hour", RateLimitRemainingHour.ToString(CultureInfo.InvariantCulture));
-                //response.Headers.Add("Date", DateTime.Now.AddSeconds(ResponseTime).ToUniversalTime().ToString("s", CultureInfo.InvariantCulture));
+                var respondingTime = DateTime.Now.AddSeconds(ResponseTime);
+
+                response.Headers.Add("X-RateLimit-Limit-day", $"{RateLimitLimitDay}");
+                response.Headers.Add("X-RateLimit-Limit-hour", $"{RateLimitLimitHour}");
+                response.Headers.Add("X-RateLimit-Remaining-day", $"{RateLimitRemainingDay}");
+                response.Headers.Add("X-RateLimit-Remaining-hour", $"{ RateLimitRemainingHour}");
+                response.Headers.TryAddWithoutValidation("Date", $"{respondingTime.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}");
                 response.Headers.Add("Cache-Control", "no-store");
                 return response;
             }
@@ -243,10 +118,13 @@ namespace ClimaCellCore.Tests.Fixtures
                     Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/Nowcast.Normal.json"))
                 };
 
-                response.Headers.Add("X-RateLimit-Limit-day", RateLimitLimitDay.ToString(CultureInfo.InvariantCulture));
-                response.Headers.Add("X-RateLimit-Remaining-day", RateLimitRemainingDay.ToString(CultureInfo.InvariantCulture));
-                response.Headers.Add("X-RateLimit-Remaining-hour", RateLimitRemainingHour.ToString(CultureInfo.InvariantCulture));
-                //response.Headers.Add("Date", DateTime.Now.AddSeconds(ResponseTime).ToString(CultureInfo.InvariantCulture));
+                var respondingTime = DateTime.Now.AddSeconds(ResponseTime);
+
+                response.Headers.Add("X-RateLimit-Limit-day", $"{RateLimitLimitDay}");
+                response.Headers.Add("X-RateLimit-Limit-hour", $"{RateLimitLimitHour}");
+                response.Headers.Add("X-RateLimit-Remaining-day", $"{RateLimitRemainingDay}");
+                response.Headers.Add("X-RateLimit-Remaining-hour", $"{ RateLimitRemainingHour}");
+                response.Headers.TryAddWithoutValidation("Date", $"{respondingTime.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}");
                 response.Headers.Add("Cache-Control", "no-store");
                 return response;
             }
@@ -262,10 +140,13 @@ namespace ClimaCellCore.Tests.Fixtures
                     Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/Hourly.Normal.json"))
                 };
 
-                response.Headers.Add("X-RateLimit-Limit-day", RateLimitLimitDay.ToString(CultureInfo.InvariantCulture));
-                response.Headers.Add("X-RateLimit-Remaining-day", RateLimitRemainingDay.ToString(CultureInfo.InvariantCulture));
-                response.Headers.Add("X-RateLimit-Remaining-hour", RateLimitRemainingHour.ToString(CultureInfo.InvariantCulture));
-                //response.Headers.Add("Date", DateTime.Now.AddSeconds(ResponseTime).ToString(CultureInfo.InvariantCulture));
+                var respondingTime = DateTime.Now.AddSeconds(ResponseTime);
+
+                response.Headers.Add("X-RateLimit-Limit-day", $"{RateLimitLimitDay}");
+                response.Headers.Add("X-RateLimit-Limit-hour", $"{RateLimitLimitHour}");
+                response.Headers.Add("X-RateLimit-Remaining-day", $"{RateLimitRemainingDay}");
+                response.Headers.Add("X-RateLimit-Remaining-hour", $"{ RateLimitRemainingHour}");
+                response.Headers.TryAddWithoutValidation("Date", $"{respondingTime.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}");
                 response.Headers.Add("Cache-Control", "no-store");
                 return response;
             }
@@ -281,10 +162,13 @@ namespace ClimaCellCore.Tests.Fixtures
                     Content = new StringContent(File.ReadAllText($"{AppContext.BaseDirectory}/Data/Daily.Normal.json"))
                 };
 
-                response.Headers.Add("X-RateLimit-Limit-day", RateLimitLimitDay.ToString(CultureInfo.InvariantCulture));
-                response.Headers.Add("X-RateLimit-Remaining-day", RateLimitRemainingDay.ToString(CultureInfo.InvariantCulture));
-                response.Headers.Add("X-RateLimit-Remaining-hour", RateLimitRemainingHour.ToString(CultureInfo.InvariantCulture));
-                //response.Headers.Add("Date", DateTime.Now.AddSeconds(ResponseTime).ToString(CultureInfo.InvariantCulture));
+                var respondingTime = DateTime.Now.AddSeconds(ResponseTime);
+
+                response.Headers.Add("X-RateLimit-Limit-day", $"{RateLimitLimitDay}");
+                response.Headers.Add("X-RateLimit-Limit-hour", $"{RateLimitLimitHour}");
+                response.Headers.Add("X-RateLimit-Remaining-day", $"{RateLimitRemainingDay}");
+                response.Headers.Add("X-RateLimit-Remaining-hour", $"{ RateLimitRemainingHour}");
+                response.Headers.TryAddWithoutValidation("Date", $"{respondingTime.ToUniversalTime().ToString("s", CultureInfo.InvariantCulture)}");
                 response.Headers.Add("Cache-Control", "no-store");
                 return response;
             }
