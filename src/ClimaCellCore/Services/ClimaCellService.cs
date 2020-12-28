@@ -63,7 +63,7 @@ namespace ClimaCellCore
         {
             if (fields.Count <= 0)
             {
-                return new Realtime { Response = new ClimaCellResponse { IsSuccessStatus = false, ReasonPhrase = $"{nameof(fields)} cannot be empty." } };
+                throw new ArgumentException($"{nameof(fields)} cannot be empty.");
             }
 
             var query = BuildRequestUri(latitude, longitude, fields, paramters, Endpoint.Realtime);
