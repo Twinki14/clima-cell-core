@@ -36,6 +36,12 @@ namespace ClimaCellCore
         /// </summary>
         public class Model
         {
+            /// <summary>Latitude.</summary>
+            public double Latitude { get; set; }
+
+            /// <summary>Longitude.</summary>
+            public double Longitude { get; set; }
+
             /// <summary>Temperature.</summary>
             public ForecastMinMax Temp { get; set; }
 
@@ -261,6 +267,14 @@ namespace ClimaCellCore
             [JsonProperty("observation_time")]
             public ObservationTime ObservationTime { get; set; }
 
+            /// <summary>Latitude.</summary>
+            [JsonProperty("lat")]
+            public double Latitude { get; set; }
+
+            /// <summary>Longitude.</summary>
+            [JsonProperty("lon")]
+            public double Longitude { get; set; }
+
             /// <summary>
             ///     Intializes and returns a new <see cref="Model"/> instance and populates it from the passed <see cref="_model"/>.
             /// </summary>
@@ -440,6 +454,8 @@ namespace ClimaCellCore
 
                 d.WeatherCode = m.WeatherCode ?? null;
                 d.ObservationTime = m.ObservationTime ?? null;
+                d.Latitude = m.Latitude;
+                d.Longitude = m.Longitude;
 
                 return d;
             }

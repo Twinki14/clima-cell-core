@@ -12,6 +12,14 @@ namespace ClimaCellCore
     /// </summary>
     public class Realtime : PresentResponse
     {
+        /// <summary>Latitude.</summary>
+        [JsonProperty("lat")]
+        public double Latitude { get; set; }
+
+        /// <summary>Longitude.</summary>
+        [JsonProperty("lon")]
+        public double Longitude { get; set; }
+
         /// <summary>Temperature.</summary>
         [JsonProperty("temp")]
         public Temp Temp { get; set; }
