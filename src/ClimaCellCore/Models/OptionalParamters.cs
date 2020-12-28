@@ -1,6 +1,6 @@
 using System;
 
-namespace ClimaCellCore.Models
+namespace ClimaCellCore
 {
     /// <summary>
     ///     Optional paramaters for a climacell request made with a <see cref="ClimaCellService"/> instance.
