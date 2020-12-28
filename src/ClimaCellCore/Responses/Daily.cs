@@ -415,7 +415,7 @@ namespace ClimaCellCore
                     };
                 }
 
-                if (m.Precipitation?.Count == 2)
+                if (m.Precipitation?.Count == 1)
                 {
                     d.Precipitation = new ForecastMax()
                     {
