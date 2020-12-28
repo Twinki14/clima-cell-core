@@ -113,11 +113,11 @@ namespace ClimaCellCore
         public SO2 SO2 { get; set; }
 
         /// <summary>Air quality index per US EPA standard.</summary>
-        [JsonProperty("epa_primary_pollutant")]
+        [JsonProperty("epa_aqi")]
         public EpaAQI EpaAQI { get; set; }
 
         /// <summary>Primary pollutant per US EPA standard.</summary>
-        [JsonProperty("epa_aqi")]
+        [JsonProperty("epa_primary_pollutant")]
         public EpaPrimaryPollutant EpaPrimaryPollutant { get; set; }
 
         /// <summary>Health concern level based on EPA standard.</summary>
