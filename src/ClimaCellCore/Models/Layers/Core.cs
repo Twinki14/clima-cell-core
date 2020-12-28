@@ -57,7 +57,7 @@ namespace ClimaCellCore.Models
     public class WindDirection
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -87,7 +87,7 @@ namespace ClimaCellCore.Models
     public class Precipitation
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -158,7 +158,7 @@ namespace ClimaCellCore.Models
     public class CloudBase
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -168,7 +168,7 @@ namespace ClimaCellCore.Models
     public class CloudCeiling
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }

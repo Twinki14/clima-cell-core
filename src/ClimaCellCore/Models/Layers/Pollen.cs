@@ -6,7 +6,7 @@ namespace ClimaCellCore.Models
     public class PollenTree
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -16,7 +16,7 @@ namespace ClimaCellCore.Models
     public class PollenWeed
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }
@@ -26,7 +26,7 @@ namespace ClimaCellCore.Models
     public class PollenGrass
     {
         [JsonProperty("value")]
-        public double Value { get; set; }
+        public double? Value { get; set; }
 
         [JsonProperty("units")]
         public string Units { get; set; }

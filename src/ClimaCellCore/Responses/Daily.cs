@@ -16,7 +16,7 @@ namespace ClimaCellCore
         public class ForecastValueUnit
         {
             public DateTime ObservationTime { get; set; }
-            public double Value { get; set; }
+            public double? Value { get; set; }
             public string Units { get; set; }
         }
 
