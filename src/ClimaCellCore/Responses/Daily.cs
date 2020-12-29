@@ -122,10 +122,10 @@ namespace ClimaCellCore
                 [JsonProperty("observation_time")]
                 public DateTime ObservationTime { get; set; }
 
-                [JsonProperty("min")]
+                [JsonProperty("min", Required = Required.Default)]
                 public Temp Min { get; set; }
 
-                [JsonProperty("max")]
+                [JsonProperty("max", Required = Required.Default)]
                 public Temp Max { get; set; }
             }
 
@@ -134,10 +134,10 @@ namespace ClimaCellCore
                 [JsonProperty("observation_time")]
                 public DateTime ObservationTime { get; set; }
 
-                [JsonProperty("min")]
+                [JsonProperty("min", Required = Required.Default)]
                 public FeelsLike Min { get; set; }
 
-                [JsonProperty("max")]
+                [JsonProperty("max", Required = Required.Default)]
                 public FeelsLike Max { get; set; }
             }
 
@@ -146,10 +146,10 @@ namespace ClimaCellCore
                 [JsonProperty("observation_time")]
                 public DateTime ObservationTime { get; set; }
 
-                [JsonProperty("min")]
+                [JsonProperty("min", Required = Required.Default)]
                 public Dewpoint Min { get; set; }
 
-                [JsonProperty("max")]
+                [JsonProperty("max", Required = Required.Default)]
                 public Dewpoint Max { get; set; }
             }
 
@@ -158,10 +158,10 @@ namespace ClimaCellCore
                 [JsonProperty("observation_time")]
                 public DateTime ObservationTime { get; set; }
 
-                [JsonProperty("min")]
+                [JsonProperty("min", Required = Required.Default)]
                 public Humidity Min { get; set; }
 
-                [JsonProperty("max")]
+                [JsonProperty("max", Required = Required.Default)]
                 public Humidity Max { get; set; }
             }
 
@@ -170,10 +170,10 @@ namespace ClimaCellCore
                 [JsonProperty("observation_time")]
                 public DateTime ObservationTime { get; set; }
 
-                [JsonProperty("min")]
+                [JsonProperty("min", Required = Required.Default)]
                 public WindSpeed Min { get; set; }
 
-                [JsonProperty("max")]
+                [JsonProperty("max", Required = Required.Default)]
                 public WindSpeed Max { get; set; }
             }
 
@@ -182,10 +182,10 @@ namespace ClimaCellCore
                 [JsonProperty("observation_time")]
                 public DateTime ObservationTime { get; set; }
 
-                [JsonProperty("min")]
+                [JsonProperty("min", Required = Required.Default)]
                 public WindDirection Min { get; set; }
 
-                [JsonProperty("max")]
+                [JsonProperty("max", Required = Required.Default)]
                 public WindDirection Max { get; set; }
             }
 
@@ -194,10 +194,10 @@ namespace ClimaCellCore
                 [JsonProperty("observation_time")]
                 public DateTime ObservationTime { get; set; }
 
-                [JsonProperty("min")]
+                [JsonProperty("min", Required = Required.Default)]
                 public BaroPressure Min { get; set; }
 
-                [JsonProperty("max")]
+                [JsonProperty("max", Required = Required.Default)]
                 public BaroPressure Max { get; set; }
             }
 
@@ -215,10 +215,10 @@ namespace ClimaCellCore
                 [JsonProperty("observation_time")]
                 public DateTime ObservationTime { get; set; }
 
-                [JsonProperty("min")]
+                [JsonProperty("min", Required = Required.Default)]
                 public Visibility Min { get; set; }
 
-                [JsonProperty("max")]
+                [JsonProperty("max", Required = Required.Default)]
                 public Visibility Max { get; set; }
             }
 

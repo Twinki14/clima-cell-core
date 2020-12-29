@@ -7,6 +7,10 @@
     <PackageTags>csharp,climacell,clima-cell,weather,weather-api,wrapper,library</PackageTags>
     <PackageProjectUrl>https://github.com/Twinki14/clima-cell-core</PackageProjectUrl>
     <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Authors>Twinki</Authors>
+    <Product>clima-cell-core</Product>
+    <PackageId>clima-cell-core</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

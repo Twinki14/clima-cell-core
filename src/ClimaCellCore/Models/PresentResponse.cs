@@ -2,17 +2,19 @@ using System;
 using System.Net.Http;
 using ClimaCellCore.Services;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ClimaCellCore.Models
 {
     /// <summary>
     ///     A subclass to assist with defining and implmenting classes for climacells 'Present' type responses.
     /// </summary>
-    public abstract class PresentResponse 
+    public abstract class PresentResponse
     {
         /// <summary>
         ///     Useful httpResponse and climacell metadata from a climacell response. See <see cref="ClimaCellResponse"/>.
         /// </summary>
+        [JsonIgnore]
         public ClimaCellResponse Response { get; set; }
 
         /// <summary>

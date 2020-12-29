@@ -146,7 +146,7 @@ namespace ClimaCellCore
         /// <returns>A uri constructed for use with climacells' 3.0 api.</returns>
         private string BuildRequestUri(double latitude, double longitude, List<string> fields, OptionalParamters paramters, string endPoint)
         {
-            var fieldString = Uri.EscapeUriString(String.Join(",", fields));
+            var fieldString = Uri.EscapeUriString(string.Join(",", fields));
             var queryString = new StringBuilder($"{endPoint}?");
 
             queryString.Append(Invariant($"lat={latitude:N4}&lon={longitude:N4}"));
