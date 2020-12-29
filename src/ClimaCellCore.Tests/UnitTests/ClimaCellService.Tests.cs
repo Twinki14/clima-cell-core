@@ -9,7 +9,7 @@ using Xunit;
 using ClimaCellCore.Services;
 using ClimaCellCore.Tests.Fixtures;
 
-namespace ClimaCellCore.Tests
+namespace ClimaCellCore.Tests.UnitTests
 {
     public class ClimaCellServiceTests : IClassFixture<ResponseFixture>
     {

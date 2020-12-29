@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ClimaCellCore;
 using ClimaCellCore.Services;
 
 namespace ClimaCellCore.Tests.Fixtures
@@ -86,7 +85,7 @@ namespace ClimaCellCore.Tests.Fixtures
         public Realtime BadRequestRealtimeResponse { get; }
         public Realtime UnauthorizedRealtimeResponse { get; }
 
-        private static HttpResponseMessage MockRealtimeResponse
+        public static HttpResponseMessage MockRealtimeResponse
         {
             get
             {
@@ -108,7 +107,7 @@ namespace ClimaCellCore.Tests.Fixtures
             }
         }
 
-        private static HttpResponseMessage MockNowcastResponse
+        public static HttpResponseMessage MockNowcastResponse
         {
             get
             {
@@ -130,7 +129,7 @@ namespace ClimaCellCore.Tests.Fixtures
             }
         }
 
-        private static HttpResponseMessage MockHourlyResponse
+        public static HttpResponseMessage MockHourlyResponse
         {
             get
             {
@@ -152,7 +151,7 @@ namespace ClimaCellCore.Tests.Fixtures
             }
         }
 
-        private static HttpResponseMessage MockDailyResponse
+        public static HttpResponseMessage MockDailyResponse
         {
             get
             {
@@ -174,7 +173,7 @@ namespace ClimaCellCore.Tests.Fixtures
             }
         }
 
-        private static HttpResponseMessage MockBadRequestResponse
+        public static HttpResponseMessage MockBadRequestResponse
         {
             get
             {
@@ -188,7 +187,7 @@ namespace ClimaCellCore.Tests.Fixtures
             }
         }
 
-        private static HttpResponseMessage MockInvalidAPIKeyRequest
+        public static HttpResponseMessage MockInvalidAPIKeyRequest
         {
             get
             {
@@ -201,5 +200,137 @@ namespace ClimaCellCore.Tests.Fixtures
                 return response;
             }
         }
+
+        public static readonly List<string> RealtimeFields = new List<string>
+        {
+            "temp",
+            "feels_like",
+            "dewpoint",
+            "wind_speed",
+            "wind_gust",
+            "baro_pressure",
+            "visibility",
+            "humidity",
+            "wind_direction",
+            "precipitation",
+            "precipitation_type",
+            "cloud_cover",
+            "cloud_ceiling",
+            "cloud_base",
+            "surface_shortwave_radiation",
+            "sunrise",
+            "sunset",
+            "moon_phase",
+            "weather_code",
+            "epa_aqi",
+            "epa_primary_pollutant",
+            "china_aqi",
+            "china_primary_pollutant",
+            "pm25",
+            "pm10",
+            "o3",
+            "no2",
+            "co",
+            "so2",
+            "epa_health_concern",
+            "china_health_concern",
+            "pollen_tree",
+            "pollen_weed",
+            "pollen_grass"
+        };
+
+        public static readonly List<string> NowcastFields = new List<string>
+        {
+            "temp",
+            "feels_like",
+            "dewpoint",
+            "wind_speed",
+            "wind_gust",
+            "baro_pressure",
+            "visibility",
+            "precipitation",
+            "cloud_cover",
+            "cloud_ceiling",
+            "cloud_base",
+            "surface_shortwave_radiation",
+            "humidity",
+            "wind_direction",
+            "precipitation_type",
+            "sunrise",
+            "sunset",
+            "epa_aqi",
+            "epa_primary_pollutant",
+            "china_aqi",
+            "china_primary_pollutant",
+            "pm25",
+            "pm10",
+            "o3",
+            "no2",
+            "co",
+            "so2",
+            "epa_health_concern",
+            "china_health_concern",
+            "pollen_tree",
+            "pollen_weed",
+            "pollen_grass",
+            "weather_code"
+        };
+
+        public static readonly List<string> HourlyFields = new List<string>
+        {
+            "temp",
+            "precipitation",
+            "precipitation_type",
+            "precipitation_probability",
+            "feels_like",
+            "humidity",
+            "baro_pressure",
+            "dewpoint",
+            "wind_speed",
+            "wind_gust",
+            "wind_direction",
+            "visibility",
+            "cloud_cover",
+            "cloud_ceiling",
+            "cloud_base",
+            "surface_shortwave_radiation",
+            "sunrise",
+            "sunset",
+            "moon_phase",
+            "weather_code",
+            "epa_aqi",
+            "epa_primary_pollutant",
+            "china_aqi",
+            "china_primary_pollutant",
+            "pm25",
+            "pm10",
+            "o3",
+            "no2",
+            "co",
+            "so2",
+            "epa_health_concern",
+            "china_health_concern",
+            "pollen_tree",
+            "pollen_weed",
+            "pollen_grass"
+        };
+
+        public static readonly List<string> DailyFields = new List<string>
+        {
+            "temp",
+            "precipitation_accumulation",
+            "precipitation",
+            "precipitation_probability",
+            "feels_like",
+            "humidity",
+            "baro_pressure",
+            "dewpoint",
+            "wind_speed",
+            "wind_direction",
+            "visibility",
+            "sunrise",
+            "sunset",
+            "weather_code"
+        };
     }
 }
