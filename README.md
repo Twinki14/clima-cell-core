@@ -23,12 +23,12 @@ Map
 
 ### Supported data layers
 
-| Core                                           | Air Quality                                | Pollen                         | :x: Road | :x: Fire | :x: Insurance |
-| ---------------------------------------------- | ------------------------------------------ | ------------------------------ | -------- | -------- | ------------- |
-| :white_check_mark: temp                        | :white_check_mark: pm25                    | :white_check_mark: PollenTree  |
-| :white_check_mark: feels_like                  | :white_check_mark: pm10                    | :white_check_mark: PollenWeed  |
-| :white_check_mark: dewpoint                    | :white_check_mark: o3                      | :white_check_mark: PollenGrass |
-| :white_check_mark: humidity                    | :white_check_mark: no2                     | :x: Pollen species             |
+| Core                                           | Air Quality                                | Pollen                          |
+| ---------------------------------------------- | ------------------------------------------ | ------------------------------- |
+| :white_check_mark: temp                        | :white_check_mark: pm25                    | :white_check_mark: pollen_tree  |
+| :white_check_mark: feels_like                  | :white_check_mark: pm10                    | :white_check_mark: pollen_weed  |
+| :white_check_mark: dewpoint                    | :white_check_mark: o3                      | :white_check_mark: pollen_grass |
+| :white_check_mark: humidity                    | :white_check_mark: no2                     | :x: Pollen species              |
 | :white_check_mark: wind_speed                  | :white_check_mark: co                      |
 | :white_check_mark: wind_direction              | :white_check_mark: so2                     |
 | :white_check_mark: wind_gust                   | :white_check_mark: epa_aqi                 |
