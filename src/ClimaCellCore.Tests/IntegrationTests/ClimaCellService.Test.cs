@@ -9,7 +9,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
     [Trait("Category", "IntegrationTests")]
     public sealed class ClimaCellServiceIntegrationTests : IDisposable
     {
-        private const string _apiEnvVar = "ClimaCellTestsApiKey";
+        private const string _apiEnvVar = "CLIMACELL_APIKEY";
         private string _apiKey = null;
         private const double _latitude = 42.3026;
         private const double _longitude = -71.1760;
@@ -18,12 +18,18 @@ namespace ClimaCellCore.Tests.IntegrationTests
 
         public ClimaCellServiceIntegrationTests()
         {
-            var configBuilder = new ConfigurationBuilder()
+            // priorize envrionment variables
+            _apiKey = Environment.GetEnvironmentVariable(_apiEnvVar);
+            if (string.IsNullOrWhiteSpace(_apiKey)) // if there is no environment variable set, try using the appsettings json to find the api key
+            {
+                var configBuilder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.test.json")
                 .AddEnvironmentVariables();
 
-            var config = configBuilder.Build();
-            _apiKey = config.GetValue<string>(_apiEnvVar);
+                var config = configBuilder.Build();
+
+                _apiKey = config.GetValue<string>(_apiEnvVar);
+            }
             Assert.False(string.IsNullOrWhiteSpace(_apiKey), $"You must set the environment variable {_apiEnvVar}");
             _service = new ClimaCellService(_apiKey, jsonSerializerService: new JsonMissingMemberFixture());
         }
