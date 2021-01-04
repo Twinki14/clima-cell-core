@@ -11,11 +11,11 @@ using ClimaCellCore.Tests.Fixtures;
 
 namespace ClimaCellCore.Tests.UnitTests
 {
-    public class ClimaCellServiceTests : IClassFixture<ResponseFixture>
+    public class ClimaCellServiceUnitTests : IClassFixture<ResponseFixture>
     {
         private readonly ResponseFixture _fixture;
 
-        public ClimaCellServiceTests(ResponseFixture fixture)
+        public ClimaCellServiceUnitTests(ResponseFixture fixture)
         {
             _fixture = fixture;
         }
