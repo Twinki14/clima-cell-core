@@ -9,7 +9,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
     [Trait("Category", "IntegrationTests")]
     public sealed class ClimaCellServiceIntegrationTests : IDisposable
     {
-        private const string _apiEnvVar = "CLIMACELL_APIKEY";
+        private const string _apiEnvVar = "CLIMACELL_API_KEY";
         private string _apiKey = null;
         private const double _latitude = 42.3026;
         private const double _longitude = -71.1760;
