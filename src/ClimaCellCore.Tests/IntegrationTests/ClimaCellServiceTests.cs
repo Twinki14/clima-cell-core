@@ -1,7 +1,7 @@
 using Xunit;
 using System;
 using ClimaCellCore.Tests.Fixtures;
-using Microsoft.Extensions.Configuration;
+using ClimaCellCore.Tests.Attributes;
 
 namespace ClimaCellCore.Tests.IntegrationTests
 {
@@ -18,18 +18,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
 
         public ClimaCellServiceIntegrationTests()
         {
-            // priorize envrionment variables
             _apiKey = Environment.GetEnvironmentVariable(_apiEnvVar);
-            if (string.IsNullOrWhiteSpace(_apiKey)) // if there is no environment variable set, try using the appsettings json to find the api key
-            {
-                var configBuilder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.test.json")
-                .AddEnvironmentVariables();
-
-                var config = configBuilder.Build();
-
-                _apiKey = config.GetValue<string>(_apiEnvVar);
-            }
             Assert.False(string.IsNullOrWhiteSpace(_apiKey), $"You must set the environment variable {_apiEnvVar}");
             _service = new ClimaCellService(_apiKey, jsonSerializerService: new JsonMissingMemberFixture());
         }
