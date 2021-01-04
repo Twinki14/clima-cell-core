@@ -23,7 +23,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
             _service = new ClimaCellService(_apiKey, jsonSerializerService: new JsonMissingMemberFixture());
         }
 
-        [Fact]
+        [SkipIfNotRequested]
         public async void Realtime_NotMissingMembers()
         {
             var resp = await _service.GetRealtime(_latitude, _longitude, ResponseFixture.RealtimeFields, new OptionalParamters { UnitSystem = "us" });
@@ -31,7 +31,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
             Assert.Equal("F", resp.Temp.Units);
         }
 
-        [Fact]
+        [SkipIfNotRequested]
         public async void Realtime_JsonGermanCulture()
         {
             using var cultureJsonService = new ClimaCellService(_apiKey, jsonSerializerService: new JsonGermanCultureFixture());
@@ -40,7 +40,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
             Assert.Equal("C", resp.Temp.Units);
         }
 
-        [Fact]
+        [SkipIfNotRequested]
         public async void Nowcast_NotMissingMembers()
         {
             var resp = await _service.GetNowcast(_latitude, _longitude, ResponseFixture.NowcastFields, new OptionalParamters { NowcastTimeStep = 5, UnitSystem = "us" });
@@ -50,7 +50,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
             Assert.Equal("F", resp.DataPoints[0].Temp.Units);
         }
 
-        [Fact]
+        [SkipIfNotRequested]
         public async void Nowcast_JsonGermanCulture()
         {
             using var cultureJsonService = new ClimaCellService(_apiKey, jsonSerializerService: new JsonGermanCultureFixture());
@@ -61,7 +61,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
             Assert.Equal("C", resp.DataPoints[0].Temp.Units);
         }
 
-        [Fact]
+        [SkipIfNotRequested]
         public async void Hourly_NotMissingMembers()
         {
             var resp = await _service.GetHourly(_latitude, _longitude, ResponseFixture.HourlyFields, new OptionalParamters { UnitSystem = "us" });
@@ -71,7 +71,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
             Assert.Equal("F", resp.DataPoints[0].Temp.Units);
         }
 
-        [Fact]
+        [SkipIfNotRequested]
         public async void Hourly_JsonGermanCulture()
         {
             using var cultureJsonService = new ClimaCellService(_apiKey, jsonSerializerService: new JsonGermanCultureFixture());
@@ -82,7 +82,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
             Assert.Equal("C", resp.DataPoints[0].Temp.Units);
         }
 
-        [Fact]
+        [SkipIfNotRequested]
         public async void Daily_NotMissingMembers()
         {
             var resp = await _service.GetDaily(_latitude, _longitude, ResponseFixture.DailyFields, new OptionalParamters { UnitSystem = "us" });
@@ -92,7 +92,7 @@ namespace ClimaCellCore.Tests.IntegrationTests
             Assert.Equal("F", resp.DataPoints[0].Temp.Min.Units);
         }
 
-        [Fact]
+        [SkipIfNotRequested]
         public async void Daily_JsonGermanCulture()
         {
             using var cultureJsonService = new ClimaCellService(_apiKey, jsonSerializerService: new JsonGermanCultureFixture());
