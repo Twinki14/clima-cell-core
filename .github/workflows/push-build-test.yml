@@ -1,4 +1,4 @@
-name: build-test-publish
+name: push-build-test
 
 on:
   push:
@@ -17,3 +17,7 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
+      - name: Test
+      env:
+        CLIMACELL_RUN_INTEGRATION_TESTS: false
+      run: dotnet test --no-build --verbosity normal
