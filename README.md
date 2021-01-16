@@ -1,6 +1,6 @@
 # clima-cell-core
 
-An unoffical C# standard library [climacell api](https://developer.climacell.co/) wrapper focused on the free tier data layer and endpoints, heavily inspired and based on [dark-sky-core](https://github.com/amweiss/dark-sky-core) and [ClimaCellCore](https://github.com/algedabra/ClimaCellCore)
+An unoffical C# standard library [climacell v3 api](https://developer.climacell.co/) wrapper focused on the free tier data layer and endpoints, heavily inspired and based on [dark-sky-core](https://github.com/amweiss/dark-sky-core) and [ClimaCellCore](https://github.com/algedabra/ClimaCellCore)
 
 ### Supported endpoints
 
