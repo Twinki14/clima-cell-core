@@ -1,3 +1,6 @@
+# Archived
+With the release of [climacell v4](https://www.climacell.co/blog/introducing-v4-of-the-climacell-api-with-new-developer-centric-features/) there is no reason to keep working towards a 1.0 release, i'll be taking what I've learned and working towards publishing clima-cell-core for v4 which you can find [here]() 
+
 # clima-cell-core
 
 An unoffical C# standard library [climacell v3 api](https://developer.climacell.co/) wrapper focused on the free tier data layer and endpoints, heavily inspired and based on [dark-sky-core](https://github.com/amweiss/dark-sky-core) and [ClimaCellCore](https://github.com/algedabra/ClimaCellCore)
