@@ -1,5 +1,5 @@
 # Archived
-With the release of [climacell v4](https://www.climacell.co/blog/introducing-v4-of-the-climacell-api-with-new-developer-centric-features/) there is no reason to keep working towards a 1.0 release, i'll be taking what I've learned and working towards publishing clima-cell-core for v4 which you can find [here]() 
+With the release of [climacell v4](https://www.climacell.co/blog/introducing-v4-of-the-climacell-api-with-new-developer-centric-features/) there is no reason to keep working towards a 1.0 release, i'll be taking what I've learned and working towards publishing clima-cell-core for v4 which you can find [here](https://github.com/Twinki14/clima-cell-core) 
 
 # clima-cell-core
 
